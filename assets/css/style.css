@@ -1,271 +1,359 @@
+/* Using system fonts: "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif" */
 :root {
-    --primary-color: #007bff; /* Bright blue for accents */
-    --accent-color: #6a1b9a; /* A vibrant purple for highlights */
-    --text-color: #e0e0e0; /* Light gray for general text */
-    --light-text-color: #a0a0a0; /* Slightly darker light gray for secondary text */
-    --background-color: #1a1a1a; /* Dark background */
-    --card-background: #2a2a2a; /* Slightly lighter dark for cards */
-    --border-color: #444444; /* Darker border */
-    --header-bg: #222222; /* Darker header */
-    --input-bg: #333333; /* Dark background for inputs */
-    --input-border: #555555; /* Input border */
-    --tag-bg: #3a3a3a; /* Background for format tags */
-    --tag-text: #a0a0a0; /* Text for format tags */
-    --link-color: #64b5f6; /* Lighter blue for links */
-    --link-hover-color: #90caf9; /* Even lighter blue on hover */
+    --primary-accent: #00bcd4; /* Teal for primary actions/highlights */
+    --secondary-accent: #9c27b0; /* Purple for secondary details */
+    --background-dark: #121212; /* Deep dark background */
+    --background-light: #1e1e1e; /* Slightly lighter dark for sections/cards */
+    --text-primary: #e0e0e0; /* Light text for readability */
+    --text-secondary: #a0a0a0; /* Subtler text for descriptions */
+    --border-subtle: #333333; /* Fine line borders */
+    --input-bg: #2a2a2a; /* Input field background */
+    --input-border-focus: #00bcd4; /* Input border on focus */
+    --link-color: #00bcd4; /* Link color */
+    --link-hover-color: #00e5ff; /* Link hover color */
+    --tag-bg: #282828; /* Tag background */
+    --tag-text: #bdbdbd; /* Tag text */
+    --gradient-start: #1a1a1a;
+    --gradient-end: #0a0a0a;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    min-height: 100vh; /* Ensure full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+.background-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 1% 1%, rgba(0, 188, 212, 0.05) 1px, transparent 1px),
+                      radial-gradient(circle at 50% 50%, rgba(156, 39, 176, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px, 80px 80px; /* Adjust grid size */
+    opacity: 0.1;
+    z-index: -1;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    position: relative; /* For z-index context */
 }
 
 header {
-    background-color: var(--header-bg);
-    padding: 30px 0;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    padding: 40px 0;
     text-align: center;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+    z-index: 10;
 }
 
 header h1 {
     margin: 0;
-    color: var(--primary-color);
-    font-size: 2.8em;
+    color: var(--primary-accent);
+    font-size: 3.2em;
     font-weight: 700;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
+    text-shadow: 0 0 10px rgba(0, 188, 212, 0.3); /* Subtle glow */
 }
 
 header .tagline {
-    font-size: 1.2em;
-    color: var(--light-text-color);
-    margin-top: 5px;
-    font-weight: 300;
+    font-size: 1.3em;
+    color: var(--text-secondary);
+    margin-top: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 main {
-    padding: 30px 0;
+    flex-grow: 1; /* Allows main content to expand */
+    padding: 40px 0;
+    position: relative;
+    z-index: 5;
 }
 
-section {
-    padding: 0; /* Cards will have their own padding */
+#intro {
+    background-color: var(--background-light);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
     margin-bottom: 30px;
 }
 
 #intro p {
-    font-size: 1.1em;
+    font-size: 1.15em;
     margin-bottom: 25px;
-    color: var(--text-color);
+    color: var(--text-primary);
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .filter-controls {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 30px;
+    justify-content: center; /* Center filter items */
     align-items: center;
-    background-color: var(--card-background);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .filter-controls input[type="text"],
 .filter-controls select {
-    padding: 12px 15px;
-    border: 1px solid var(--input-border);
-    border-radius: 6px;
+    padding: 12px 20px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
     font-size: 1em;
-    flex-grow: 1;
     background-color: var(--input-bg);
-    color: var(--text-color);
-    min-width: 200px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    appearance: none; /* Remove default select arrow */
+    color: var(--text-primary);
+    flex-grow: 1; /* Allow to grow but respect min-width */
+    min-width: 250px;
+    max-width: 350px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .filter-controls input[type="text"]::placeholder {
-    color: var(--light-text-color);
+    color: var(--text-secondary);
 }
 
 .filter-controls input[type="text"]:focus,
 .filter-controls select:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    border-color: var(--primary-accent);
+    background-color: #333333; /* Slightly lighter on focus */
 }
 
-/* Custom select arrow */
-.select-wrapper {
+/* Custom Select Arrow */
+.filter-group {
     position: relative;
     flex-grow: 1;
-    min-width: 200px;
+    min-width: 250px;
+    max-width: 350px;
 }
-.select-wrapper::after {
-    content: '▼';
-    font-size: 0.8em;
-    color: var(--light-text-color);
+
+.filter-group select {
+    width: 100%;
+    -webkit-appearance: none; /* Remove default arrow for Chrome/Safari */
+    -moz-appearance: none;    /* Remove default arrow for Firefox */
+    appearance: none;         /* Remove default arrow for others */
+    padding-right: 40px; /* Space for the custom arrow */
+}
+
+.select-arrow {
     position: absolute;
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    pointer-events: none;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--text-secondary);
+    pointer-events: none; /* Make arrow not clickable */
 }
 
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* Custom Checkbox */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
     font-size: 1em;
-    color: var(--text-color);
-    cursor: pointer;
-    white-space: nowrap;
+    color: var(--text-primary);
+    user-select: none; /* Prevent text selection */
+    transition: color 0.3s ease;
 }
 
-.checkbox-label input[type="checkbox"] {
-    appearance: none;
-    width: 20px;
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 20px;
-    border: 2px solid var(--input-border);
-    border-radius: 4px;
+    width: 20px;
     background-color: var(--input-bg);
-    display: grid;
-    place-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.checkbox-label input[type="checkbox"]::before {
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #3a3a3a; /* Slightly lighter on hover */
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
+}
+
+.checkmark:after {
     content: "";
-    width: 10px;
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
     height: 10px;
-    transform: scale(0);
-    transition: transform 0.2s ease-in-out;
-    box-shadow: inset 1em 1em var(--primary-color);
-    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 60%);
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
-.checkbox-label input[type="checkbox"]:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.checkbox-label input[type="checkbox"]:checked::before {
-    transform: scale(1);
-}
-
-
-/* Service Cards Grid */
+/* Service Grid & Cards */
 #services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
 }
 
 .service-card {
-    background-color: var(--card-background);
+    background-color: var(--background-light);
     padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    transition: transform 0.2s ease, border-color 0.2s ease;
     display: flex;
     flex-direction: column;
+    min-height: 220px; /* Ensure consistent card height */
 }
 
 .service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-8px);
+    border-color: var(--primary-accent); /* Highlight on hover */
 }
 
 .service-card h3 {
     margin-top: 0;
-    margin-bottom: 15px;
-    color: var(--primary-color);
-    font-size: 1.8em;
+    margin-bottom: 12px;
+    color: var(--primary-accent);
+    font-size: 1.9em;
     font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
-.service-card p {
-    margin-bottom: 10px;
+.service-card-info {
+    flex-grow: 1; /* Allows info section to fill space */
     font-size: 0.95em;
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
-.service-card p strong {
-    color: var(--light-text-color);
+.service-card-info p {
+    margin-bottom: 8px; /* Spacing between paragraphs */
+}
+
+.service-card-info strong {
+    color: var(--text-secondary);
     font-weight: 500;
 }
 
 .format-tags {
-    margin-bottom: 15px;
+    margin-top: 15px; /* Spacing from info above */
+    margin-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
-    gap: 7px;
+    gap: 8px;
 }
 
 .format-tag {
     display: inline-block;
     background-color: var(--tag-bg);
     color: var(--tag-text);
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 0.85em;
-    font-weight: 500;
-    border: 1px solid var(--input-border);
-}
-
-.export-link {
-    margin-top: auto; /* Pushes the link to the bottom */
-    text-align: right;
-}
-
-.export-link a {
-    display: inline-block;
-    background-color: var(--accent-color);
-    color: #ffffff;
-    padding: 10px 20px;
+    padding: 7px 14px;
     border-radius: 6px;
+    font-size: 0.8em;
+    font-weight: 500;
+    border: 1px solid var(--border-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.export-action {
+    margin-top: auto; /* Pushes button to bottom */
+    text-align: right;
+    padding-top: 15px; /* Space above button */
+    border-top: 1px solid var(--border-subtle);
+}
+
+.export-action a {
+    display: inline-block;
+    background-color: var(--secondary-accent); /* Purple for action button */
+    color: #ffffff;
+    padding: 12px 25px;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
-    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    letter-spacing: 0.03em;
 }
 
-.export-link a:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
+.export-action a:hover {
+    background-color: var(--primary-accent); /* Teal on hover for consistency */
+    transform: translateY(-3px);
 }
 
 .info-message {
     text-align: center;
-    font-size: 1.2em;
-    color: var(--light-text-color);
-    margin-top: 50px;
-    grid-column: 1 / -1; /* Make it span all columns */
+    font-size: 1.3em;
+    color: var(--text-secondary);
+    margin-top: 60px;
+    grid-column: 1 / -1; /* Make it span all columns in the grid */
+}
+
+.loading-state {
+    /* Optional loading animation */
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.8; }
+    to { opacity: 0.5; }
+}
+
+.empty-state {
+    color: var(--secondary-accent);
 }
 
 footer {
-    background-color: var(--header-bg);
-    color: var(--light-text-color);
+    background-color: var(--gradient-end); /* Slightly darker footer */
+    color: var(--text-secondary);
     text-align: center;
     padding: 25px 0;
     margin-top: 40px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-subtle);
+    position: relative;
+    z-index: 10;
 }
 
 footer a {
     color: var(--link-color);
     text-decoration: none;
-    transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease;
 }
 
 footer a:hover {
@@ -274,25 +362,37 @@ footer a:hover {
 }
 
 /* Responsive adjustments */
+@media (max-width: 900px) {
+    #services-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+}
+
 @media (max-width: 768px) {
     header h1 {
-        font-size: 2.2em;
+        font-size: 2.5em;
+    }
+
+    header .tagline {
+        font-size: 1.1em;
     }
 
     .filter-controls {
         flex-direction: column;
-        align-items: stretch;
+        gap: 20px;
     }
 
     .filter-controls input[type="text"],
     .filter-controls select,
-    .select-wrapper {
+    .filter-group {
         width: 100%;
-        min-width: unset;
+        max-width: unset; /* Remove max-width on smaller screens */
     }
 
     #services-grid {
         grid-template-columns: 1fr; /* Single column on small screens */
+        gap: 20px;
     }
 
     .service-card {
@@ -300,13 +400,13 @@ footer a:hover {
     }
 
     .service-card h3 {
-        font-size: 1.6em;
+        font-size: 1.7em;
     }
 
-    .export-link a {
+    .export-action a {
         width: 100%;
         text-align: center;
-        padding: 12px 0;
+        padding: 14px 0;
     }
 }
 
@@ -316,10 +416,14 @@ footer a:hover {
     }
 
     header h1 {
-        font-size: 1.8em;
+        font-size: 2em;
     }
 
-    .tagline {
+    header .tagline {
+        font-size: 1em;
+    }
+
+    #intro p {
         font-size: 1em;
     }
 }
