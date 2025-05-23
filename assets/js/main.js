@@ -7,9 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const noResultsMessage = document.getElementById('noResults');
 
     let allServices = []; // Stores the complete, unfiltered list of services
+    let exportIconSvg = ''; // Will store the SVG content for the export icon
 
     // Set current year in footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Function to fetch SVG content
+    async function fetchSvgIcon(filePath) {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.text();
+        } catch (error) {
+            console.error(`Failed to fetch SVG icon from ${filePath}:`, error);
+            return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>'; // Fallback error icon
+        }
+    }
 
     /**
      * Creates an HTML string for a single service card.
@@ -20,43 +35,41 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function createServiceCardHtml(service, index) {
         const formatsHtml = service.formats && service.formats.length > 0
-            ? `<div class="flex flex-wrap gap-2 mb-4">
-                ${service.formats.map(format => `<span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-md text-sm font-medium border border-gray-600 hover:bg-gray-600 transition-colors duration-200">${format.toUpperCase()}</span>`).join('')}
+            ? `<div class="format-tags">
+                ${service.formats.map(format => `<span class="format-tag">${format.toUpperCase()}</span>`).join('')}
                </div>`
-            : `<div class="mb-4"><span class="bg-gray-700 text-gray-400 px-3 py-1 rounded-md text-sm font-medium border border-gray-600">N/A</span></div>`;
+            : `<div class="format-tags"><span class="format-tag">N/A</span></div>`;
 
         const deletionStatusClass = service.deletionRequired ? 'required' : 'available';
         const deletionStatusText = service.deletionRequired ? 'Yes' : 'No';
 
         const exportLinkHtml = service.exportLink
             ? `<a href="${service.exportLink}" target="_blank" rel="noopener noreferrer"
-                  class="inline-flex items-center px-6 py-3 bg-fuchsia-700 text-white font-semibold rounded-lg hover:bg-fuchsia-600 transition-colors duration-200 transform hover:-translate-y-1"
+                  class="export-button"
                   aria-label="Go to export page for ${service.name}">
                   Go to Export Page
-                  <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6V8H16.59L4.71 19.88L6.12 21.29L18 9.41V16H20V6H10Z"/></svg>
+                  ${exportIconSvg}
                </a>`
-            : `<span class="text-gray-400 text-sm italic">No direct link available</span>`;
+            : `<span class="no-link-message">No direct link available</span>`;
 
         const lastVerifiedHtml = service.lastVerifiedDate
-            ? `<p class="last-verified">Last verified: ${service.lastVerifiedDate}</p>`
+            ? `<span class="last-verified">Last verified: ${service.lastVerifiedDate}</span>`
             : '';
 
         return `
-            <div class="service-card bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col hover:transform hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
-                 style="animation-delay: ${index * 0.05}s;"> <h3 class="text-2xl font-bold text-cyan-400 mb-4 pb-3 border-b border-gray-700">
-                    ${service.name}
-                </h3>
+            <div class="service-card" style="animation-delay: ${index * 0.05}s;">
+                <h3 class="service-card-title">${service.name}</h3>
                 ${formatsHtml}
-                <div class="flex-grow text-gray-200 text-sm">
-                    <p class="mb-2"><strong>Deletion Required:</strong>
+                <div class="service-info">
+                    <p><strong>Deletion Required:</strong>
                         <span class="status-indicator ${deletionStatusClass}" role="status">
                             ${deletionStatusText}
                         </span>
                     </p>
-                    <p class="mb-2"><strong>Process Time:</strong> <span class="text-gray-300">${service.processTime || 'Varies by data volume'}</span></p>
-                    <p class="mb-4"><strong>Notes:</strong> <span class="text-gray-300">${service.notes || 'No specific notes available.'}</span></p>
+                    <p><strong>Process Time:</strong> <span>${service.processTime || 'Varies by data volume'}</span></p>
+                    <p><strong>Notes:</strong> <span>${service.notes || 'No specific notes available.'}</span></p>
                 </div>
-                <div class="mt-auto pt-6 border-t border-gray-700 flex justify-between items-end">
+                <div class="export-actions">
                     ${exportLinkHtml}
                     ${lastVerifiedHtml}
                 </div>
@@ -69,7 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function fetchServices() {
         loadingMessage.classList.remove('hidden'); // Show loading message
+        noResultsMessage.classList.add('hidden'); // Ensure no results message is hidden
         servicesGrid.innerHTML = ''; // Clear existing cards
+
+        // Fetch SVG icon first
+        exportIconSvg = await fetchSvgIcon('assets/images/arrow-up-right.svg');
 
         try {
             const response = await fetch('data/services.json');
@@ -81,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             applyFilters(); // Apply initial filters after fetching
         } catch (error) {
             console.error('Failed to fetch services:', error);
-            servicesGrid.innerHTML = `<p class="col-span-full text-center text-red-500 text-xl info-message">Error loading data. Please check your internet connection or try again later.</p>`;
+            servicesGrid.innerHTML = `<p class="info-message empty-state">Error loading data. Please check your internet connection or try again later.</p>`;
         } finally {
             loadingMessage.classList.add('hidden'); // Hide loading message
         }
@@ -101,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sortedFormats = Array.from(formats).sort();
 
         // Clear existing options, keep "All Formats"
-        formatFilter.innerHTML = '<option value="">All Formats</option>';
+        formatFilter.innerHTML = '<option value="">All Data Formats</option>';
         sortedFormats.forEach(format => {
             const option = document.createElement('option');
             option.value = format;
