@@ -4,51 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Export My Data - Take Control of Your Digital Life</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/custom.css"> <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
     <meta name="description" content="Find out how to export your data from popular online services. Get direct links, understand data formats, and learn about process times. Your data, your control.">
     <meta property="og:title" content="Export My Data - Take Control of Your Digital Life">
     <meta property="og:description" content="A simple guide to exporting your data from various online services.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://modcoretech.github.io/export-my-data/">
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col font-sans antialiased">
+<body class="dark-theme">
     <div class="background-pattern"></div>
 
-    <header class="relative bg-gray-900 py-12 text-center border-b border-gray-800 z-10">
-        <div class="container mx-auto px-6">
-            <h1 class="text-5xl font-extrabold text-cyan-400 leading-tight tracking-tighter drop-shadow-lg transition-all duration-300 hover:scale-102 hover:text-cyan-300">
-                Export My Data
-            </h1>
-            <p class="text-xl text-gray-400 mt-4 uppercase tracking-wider font-light">
-                Your Data. Your Control. Simple.
-            </p>
+    <header class="main-header">
+        <div class="container">
+            <h1 class="site-title">Export My Data</h1>
+            <p class="tagline">Your Data. Your Control. Simple.</p>
         </div>
     </header>
 
-    <main class="flex-grow py-12 relative z-10">
-        <div class="container mx-auto px-6">
-            <section class="bg-gray-900 p-8 rounded-xl border border-gray-800 mb-10 shadow-lg">
-                <p class="text-lg text-gray-200 text-center max-w-3xl mx-auto mb-8">
-                    Easily find out how to get your data back from popular online services. We provide direct links, explain data formats, and give you an idea of how long it takes.
-                </p>
+    <main class="main-content">
+        <div class="container">
+            <section class="intro-section">
+                <p>Easily find out how to get your data back from popular online services. We provide direct links, explain data formats, and give you an idea of how long it takes.</p>
 
-                <div class="flex flex-wrap justify-center gap-6 p-6 rounded-lg bg-gray-800 border border-gray-700">
-                    <input type="text" id="searchInput" placeholder="Search service names or notes..." aria-label="Search by service name or notes"
-                           class="flex-1 min-w-[280px] max-w-lg p-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200">
+                <div class="filter-controls">
+                    <input type="text" id="searchInput" placeholder="Search service names or notes..." aria-label="Search by service name or notes" class="search-input">
 
-                    <div class="relative flex-1 min-w-[200px] max-w-[280px] select-wrapper">
-                        <select id="formatFilter" aria-label="Filter by data format"
-                                class="w-full p-3 pr-10 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 appearance-none focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200">
+                    <div class="select-wrapper">
+                        <select id="formatFilter" aria-label="Filter by data format" class="format-select">
                             <option value="">All Data Formats</option>
                             </select>
                     </div>
 
-                    <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200 tooltip-container">
-                        <span class="text-gray-200">Deletion Required?</span>
-                        <div class="relative">
-                            <input type="checkbox" id="deletionRequiredFilter" class="sr-only peer" aria-label="Filter by services where deletion is required for data removal">
-                            <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-fuchsia-600 after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+                    <label class="toggle-container tooltip-container">
+                        <span class="toggle-label">Deletion Required?</span>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="deletionRequiredFilter" class="toggle-checkbox" aria-label="Filter by services where deletion is required for data removal">
+                            <span class="toggle-slider"></span>
                         </div>
                         <span class="tooltip-icon" aria-describedby="tooltip-deletion">i</span>
                         <span id="tooltip-deletion" role="tooltip" class="tooltip-text">
@@ -58,25 +50,25 @@
                 </div>
             </section>
 
-            <section id="services-grid" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                <p id="loadingMessage" class="col-span-full text-center text-xl text-gray-400 animate-pulse info-message loading-state">Loading service information...</p>
-                <p id="noResults" class="col-span-full text-center text-xl text-fuchsia-400 hidden info-message empty-state">No services match your filters. Try adjusting your search or selections.</p>
+            <section id="services-grid" class="services-grid">
+                <p id="loadingMessage" class="info-message loading-state">Loading service information...</p>
+                <p id="noResults" class="info-message empty-state hidden">No services match your filters. Try adjusting your search or selections.</p>
             </section>
         </div>
     </main>
 
-    <footer class="relative bg-gray-900 py-8 text-center border-t border-gray-800 z-10">
-        <div class="container mx-auto px-6">
-            <p class="text-gray-400 text-sm">
+    <footer class="main-footer">
+        <div class="container">
+            <p>
                 © <span id="currentYear"></span> Export My Data. Made with care by the
-                <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">Modcore Team</a>.
+                <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer" class="footer-link">Modcore Team</a>.
             </p>
-            <p class="text-gray-500 text-xs mt-2">
-                <a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">View on GitHub</a>
+            <p class="footer-links-group">
+                <a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer" class="footer-link">View on GitHub</a>
                 |
-                <a href="https://github.com/modcoretech/export-my-data/issues" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">Report a Problem</a>
+                <a href="https://github.com/modcoretech/export-my-data/issues" target="_blank" rel="noopener noreferrer" class="footer-link">Report a Problem</a>
                 |
-                <a href="https://github.com/modcoretech/export-my-data/discussions" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">Join the Discussion</a>
+                <a href="https://github.com/modcoretech/export-my-data/discussions" target="_blank" rel="noopener noreferrer" class="footer-link">Join the Discussion</a>
             </p>
         </div>
     </footer>
