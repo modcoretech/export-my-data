@@ -5,7 +5,7 @@
         "deletionRequired": false,
         "processTime": "Minutes to Days",
         "exportLink": "https://takeout.google.com/",
-        "notes": "Comprehensive export tool for most Google services. You choose which products to include."
+        "notes": "Comprehensive export tool for most Google services. You can select specific products and data types to include in your archive. Larger exports may take longer."
     },
     {
         "name": "Facebook",
@@ -13,7 +13,7 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://www.facebook.com/dyi/",
-        "notes": "Download Your Information tool. Includes posts, photos, comments, and activity logs."
+        "notes": "The 'Download Your Information' tool allows you to get a copy of your content and information, including posts, photos, comments, and activity logs. You can customize the date range and format."
     },
     {
         "name": "Twitter (X)",
@@ -21,7 +21,7 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://twitter.com/settings/your_twitter_data",
-        "notes": "Archive includes tweets, direct messages, media, and more. Might take a few hours to generate."
+        "notes": "Archive includes tweets, direct messages, media (photos/videos), followers, following, and more. It may take a few hours for your archive to be ready for download."
     },
     {
         "name": "Instagram",
@@ -29,7 +29,7 @@
         "deletionRequired": false,
         "processTime": "Hours to 2 Days",
         "exportLink": "https://www.instagram.com/download/request/",
-        "notes": "Request your data through settings or the app. Photos and videos will be in a separate folder."
+        "notes": "Request your data through your settings or the mobile app. Photos and videos will be organized in separate folders within the downloaded archive. Processing time depends on data volume."
     },
     {
         "name": "LinkedIn",
@@ -37,7 +37,7 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://www.linkedin.com/psettings/member-data",
-        "notes": "Multiple data archives available: connections, messages, job applications, account activity."
+        "notes": "LinkedIn offers multiple data archives: connections, messages, job applications, account activity, and more. You can select specific categories for export."
     },
     {
         "name": "GitHub",
@@ -45,15 +45,15 @@
         "deletionRequired": false,
         "processTime": "Minutes",
         "exportLink": "https://github.com/settings/admin",
-        "notes": "Account data and repository exports are separate processes. Repository cloning is via Git."
+        "notes": "Account data and repository exports are separate processes. For repositories, standard Git cloning operations are used. Account data is available via settings."
     },
     {
         "name": "Spotify",
         "formats": ["JSON"],
         "deletionRequired": false,
         "processTime": "Days to Weeks",
-        "exportLink": "https://www.spotify.com/us/account/privacy/",
-        "notes": "Under 'Download your data' in privacy settings. Can take up to 30 days due to data volume."
+        "exportLink": "https://www.spotify.com/account/privacy/",
+        "notes": "Found under 'Download your data' in privacy settings. Due to the volume of streaming data, it can take up to 30 days for your full archive to be prepared and sent."
     },
     {
         "name": "Reddit",
@@ -61,7 +61,7 @@
         "deletionRequired": false,
         "processTime": "Hours to Days",
         "exportLink": "https://www.reddit.com/settings/data",
-        "notes": "Your personal data file includes posts, comments, and messages. Generated periodically."
+        "notes": "Your personal data file includes posts, comments, messages, and saved content. The archive is generated periodically and may take some time depending on your activity."
     },
     {
         "name": "Netflix",
@@ -69,7 +69,7 @@
         "deletionRequired": false,
         "processTime": "Minutes",
         "exportLink": "https://www.netflix.com/account/privacy",
-        "notes": "Download your viewing history and interaction data. Link is usually within privacy settings."
+        "notes": "You can download your viewing history and interaction data. The export link is typically found within your account's privacy settings. Data is usually available quickly."
     },
     {
         "name": "Twitch",
@@ -77,7 +77,7 @@
         "deletionRequired": false,
         "processTime": "Days",
         "exportLink": "https://www.twitch.tv/settings/privacy",
-        "notes": "Request data download from privacy settings. May take several days for large archives."
+        "notes": "Request data download from your privacy settings. For large archives, such as extensive chat logs or broadcast history, it may take several days to be processed and made available."
     },
     {
         "name": "Discord",
@@ -85,7 +85,7 @@
         "deletionRequired": false,
         "processTime": "Hours to Days",
         "exportLink": "https://discord.com/settings/privacy",
-        "notes": "Request your data through User Settings > Privacy & Safety. Includes messages, attachments, etc."
+        "notes": "Request your data through User Settings > Privacy & Safety. The archive includes messages, attachments, user settings, and more. Processing time varies with data size."
     },
     {
         "name": "Microsoft Account",
@@ -93,6 +93,6 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://account.microsoft.com/privacy/download-data",
-        "notes": "Manage and download data across various Microsoft services like Outlook, Xbox, and activity history."
+        "notes": "Allows you to manage and download data across various Microsoft services including Outlook, Xbox activity, search history, and more. granular control over data types."
     }
 ]
