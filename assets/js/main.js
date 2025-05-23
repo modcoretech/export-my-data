@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const servicesTableBody = document.getElementById('servicesTableBody');
+    const servicesGrid = document.getElementById('services-grid');
     const searchInput = document.getElementById('searchInput');
     const formatFilter = document.getElementById('formatFilter');
     const deletionRequiredFilter = document.getElementById('deletionRequiredFilter');
+    const loadingMessage = document.getElementById('loadingMessage');
     const noResultsMessage = document.getElementById('noResults');
 
     let allServices = []; // To store the original fetched data
@@ -11,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
     async function fetchServices() {
+        loadingMessage.style.display = 'block';
+        servicesGrid.innerHTML = ''; // Clear previous content
+
         try {
             const response = await fetch('data/services.json');
             if (!response.ok) {
@@ -18,10 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             allServices = await response.json();
             populateFormatFilter(allServices);
-            renderServices(allServices);
+            applyFilters(); // Initial render after fetching
         } catch (error) {
             console.error('Failed to fetch services:', error);
-            servicesTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red;">Error loading data. Please try again later.</td></tr>`;
+            servicesGrid.innerHTML = `<p class="info-message error-message">Error loading data. Please try again later.</p>`;
+            loadingMessage.style.display = 'none';
         }
     }
 
@@ -43,7 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderServices(servicesToRender) {
-        servicesTableBody.innerHTML = ''; // Clear existing rows
+        servicesGrid.innerHTML = ''; // Clear existing cards
+        loadingMessage.style.display = 'none'; // Hide loading message
+
         if (servicesToRender.length === 0) {
             noResultsMessage.style.display = 'block';
             return;
@@ -52,25 +59,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         servicesToRender.forEach(service => {
-            const row = document.createElement('tr');
+            const serviceCard = document.createElement('div');
+            serviceCard.classList.add('service-card');
 
             const formatsHtml = service.formats && Array.isArray(service.formats)
-                ? service.formats.map(format => `<span class="format-tag">${format.toUpperCase()}</span>`).join('')
-                : 'N/A';
+                ? `<div class="format-tags">${service.formats.map(format => `<span class="format-tag">${format.toUpperCase()}</span>`).join('')}</div>`
+                : '<div class="format-tags"><span class="format-tag">N/A</span></div>';
 
-            const exportLink = service.exportLink
-                ? `<a href="${service.exportLink}" target="_blank" rel="noopener noreferrer">Link</a>`
-                : 'N/A';
+            const exportLinkHtml = service.exportLink
+                ? `<div class="export-link"><a href="${service.exportLink}" target="_blank" rel="noopener noreferrer">Go to Export Page &rarr;</a></div>`
+                : '<div class="export-link"><span class="info-message">No direct link available</span></div>';
 
-            row.innerHTML = `
-                <td>${service.name}</td>
-                <td>${formatsHtml}</td>
-                <td>${service.deletionRequired ? 'Yes' : 'No'}</td>
-                <td>${service.processTime || 'Varies'}</td>
-                <td>${exportLink}</td>
-                <td>${service.notes || 'N/A'}</td>
+            serviceCard.innerHTML = `
+                <h3>${service.name}</h3>
+                ${formatsHtml}
+                <p><strong>Deletion Required:</strong> ${service.deletionRequired ? 'Yes' : 'No'}</p>
+                <p><strong>Process Time:</strong> ${service.processTime || 'Varies'}</p>
+                <p><strong>Notes:</strong> ${service.notes || 'No specific notes.'}</p>
+                ${exportLinkHtml}
             `;
-            servicesTableBody.appendChild(row);
+            servicesGrid.appendChild(serviceCard);
         });
     }
 
@@ -80,8 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const deletionRequired = deletionRequiredFilter.checked;
 
         const filteredServices = allServices.filter(service => {
-            const matchesSearch = service.name.toLowerCase().includes(searchTerm) ||
-                                 (service.notes && service.notes.toLowerCase().includes(searchTerm));
+            const nameMatch = service.name.toLowerCase().includes(searchTerm);
+            const notesMatch = (service.notes && service.notes.toLowerCase().includes(searchTerm));
+            const matchesSearch = nameMatch || notesMatch;
 
             const matchesFormat = selectedFormat === '' ||
                                   (service.formats && service.formats.some(format => format.toLowerCase() === selectedFormat));
