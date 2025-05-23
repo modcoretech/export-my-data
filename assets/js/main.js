@@ -1,116 +1,105 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const servicesGrid = document.getElementById('services-grid');
-    const searchInput = document.getElementById('searchInput');
-    const formatFilter = document.getElementById('formatFilter');
-    const deletionRequiredFilter = document.getElementById('deletionRequiredFilter');
-    const loadingMessage = document.getElementById('loadingMessage');
-    const noResultsMessage = document.getElementById('noResults');
+// Define the ServiceCard component
+const ServiceCard = {
+    props: ['service'],
+    template: `
+        <div class="service-card">
+            <h3>{{ service.name }}</h3>
+            <div class="format-tags">
+                <span v-if="service.formats && service.formats.length > 0" v-for="format in service.formats" :key="format" class="format-tag">{{ format.toUpperCase() }}</span>
+                <span v-else class="format-tag">N/A</span>
+            </div>
+            <div class="service-card-info">
+                <p><strong>Deletion Required:</strong>
+                    <span :class="['status-indicator', service.deletionRequired ? 'required' : 'available']">
+                        {{ service.deletionRequired ? 'Yes' : 'No' }}
+                    </span>
+                </p>
+                <p><strong>Process Time:</strong> {{ service.processTime || 'Varies by data volume' }}</p>
+                <p><strong>Notes:</strong> {{ service.notes || 'No specific notes available.' }}</p>
+            </div>
+            <div class="export-action">
+                <a v-if="service.exportLink" :href="service.exportLink" target="_blank" rel="noopener noreferrer">
+                    Go to Export Page
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6V8H16.59L4.71 19.88L6.12 21.29L18 9.41V16H20V6H10Z"/></svg>
+                </a>
+                <span v-else class="info-message-small">No direct link available</span>
+            </div>
+        </div>
+    `,
+    data() {
+        return {
+            // Data specific to this component, if any
+        };
+    }
+};
 
-    let allServices = []; // To store the original fetched data
-
-    // Set current year in footer
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-    async function fetchServices() {
-        loadingMessage.style.display = 'block';
-        servicesGrid.innerHTML = ''; // Clear previous content
-
-        try {
-            const response = await fetch('data/services.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+// Create the Vue app instance
+const app = Vue.createApp({
+    components: {
+        ServiceCard // Register the component
+    },
+    data() {
+        return {
+            allServices: [],
+            filteredServices: [],
+            searchTerm: '',
+            selectedFormat: '',
+            deletionRequired: false,
+            loading: true,
+            availableFormats: [], // Dynamically populated unique formats
+            currentYear: new Date().getFullYear()
+        };
+    },
+    methods: {
+        async fetchServices() {
+            this.loading = true;
+            try {
+                const response = await fetch('data/services.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                this.allServices = await response.json();
+                this.populateAvailableFormats(this.allServices);
+                this.applyFilters(); // Apply initial filters after data loads
+            } catch (error) {
+                console.error('Failed to fetch services:', error);
+                // Display error message
+                this.filteredServices = []; // Clear services on error
+                this.loading = false;
+            } finally {
+                this.loading = false;
             }
-            allServices = await response.json();
-            populateFormatFilter(allServices);
-            applyFilters(); // Initial render after fetching
-        } catch (error) {
-            console.error('Failed to fetch services:', error);
-            servicesGrid.innerHTML = `<p class="info-message error-message">Failed to load data. Please check your internet connection or try again later.</p>`;
-            loadingMessage.style.display = 'none';
-            noResultsMessage.style.display = 'none'; // Ensure this is hidden on error
+        },
+        populateAvailableFormats(services) {
+            const formats = new Set();
+            services.forEach(service => {
+                if (service.formats && Array.isArray(service.formats)) {
+                    service.formats.forEach(format => formats.add(format.toUpperCase()));
+                }
+            });
+            this.availableFormats = Array.from(formats).sort();
+        },
+        applyFilters() {
+            let filtered = this.allServices.filter(service => {
+                const searchLower = this.searchTerm.toLowerCase();
+                const matchesSearch = service.name.toLowerCase().includes(searchLower) ||
+                                      (service.notes && service.notes.toLowerCase().includes(searchLower));
+
+                const matchesFormat = this.selectedFormat === '' ||
+                                      (service.formats && service.formats.some(f => f.toLowerCase() === this.selectedFormat.toLowerCase()));
+
+                const matchesDeletionRequirement = !this.deletionRequired || service.deletionRequired;
+
+                return matchesSearch && matchesFormat && matchesDeletionRequirement;
+            });
+
+            this.filteredServices = filtered;
         }
+    },
+    mounted() {
+        this.fetchServices(); // Fetch data when the component is mounted
     }
-
-    function populateFormatFilter(services) {
-        const formats = new Set();
-        services.forEach(service => {
-            if (service.formats && Array.isArray(service.formats)) {
-                service.formats.forEach(format => formats.add(format.toUpperCase()));
-            }
-        });
-        const sortedFormats = Array.from(formats).sort();
-        formatFilter.innerHTML = '<option value="">All Formats</option>'; // Reset
-        sortedFormats.forEach(format => {
-            const option = document.createElement('option');
-            option.value = format;
-            option.textContent = format;
-            formatFilter.appendChild(option);
-        });
-    }
-
-    function renderServices(servicesToRender) {
-        servicesGrid.innerHTML = ''; // Clear existing cards
-        loadingMessage.style.display = 'none'; // Hide loading message
-
-        if (servicesToRender.length === 0) {
-            noResultsMessage.style.display = 'block';
-            return;
-        } else {
-            noResultsMessage.style.display = 'none';
-        }
-
-        servicesToRender.forEach(service => {
-            const serviceCard = document.createElement('div');
-            serviceCard.classList.add('service-card');
-
-            const formatsHtml = service.formats && Array.isArray(service.formats) && service.formats.length > 0
-                ? `<div class="format-tags">${service.formats.map(format => `<span class="format-tag">${format.toUpperCase()}</span>`).join('')}</div>`
-                : '<div class="format-tags"><span class="format-tag">N/A</span></div>';
-
-            const exportLinkHtml = service.exportLink
-                ? `<div class="export-action"><a href="${service.exportLink}" target="_blank" rel="noopener noreferrer">Go to Export Page</a></div>`
-                : `<div class="export-action"><span class="info-message-small">No direct link available</span></div>`;
-
-            serviceCard.innerHTML = `
-                <h3>${service.name}</h3>
-                ${formatsHtml}
-                <div class="service-card-info">
-                    <p><strong>Deletion Required:</strong> ${service.deletionRequired ? 'Yes' : 'No'}</p>
-                    <p><strong>Process Time:</strong> ${service.processTime || 'Varies by data volume'}</p>
-                    <p><strong>Notes:</strong> ${service.notes || 'No specific notes available.'}</p>
-                </div>
-                ${exportLinkHtml}
-            `;
-            servicesGrid.appendChild(serviceCard);
-        });
-    }
-
-    function applyFilters() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const selectedFormat = formatFilter.value.toLowerCase();
-        const deletionRequired = deletionRequiredFilter.checked;
-
-        const filteredServices = allServices.filter(service => {
-            const nameMatch = service.name.toLowerCase().includes(searchTerm);
-            // Search in notes only if notes exist and are not empty
-            const notesMatch = service.notes && service.notes.toLowerCase().includes(searchTerm);
-            const matchesSearch = nameMatch || notesMatch;
-
-            const matchesFormat = selectedFormat === '' ||
-                                  (service.formats && service.formats.some(format => format.toLowerCase() === selectedFormat));
-
-            const matchesDeletionRequirement = !deletionRequired || service.deletionRequired;
-
-            return matchesSearch && matchesFormat && matchesDeletionRequirement;
-        });
-        renderServices(filteredServices);
-    }
-
-    // Event Listeners
-    searchInput.addEventListener('input', applyFilters);
-    formatFilter.addEventListener('change', applyFilters);
-    deletionRequiredFilter.addEventListener('change', applyFilters);
-
-    // Initial data fetch
-    fetchServices();
 });
+
+// Mount the Vue app to the #app element in index.html
+app.mount('#app');
