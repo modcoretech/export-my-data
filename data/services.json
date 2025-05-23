@@ -1,0 +1,66 @@
+[
+    {
+        "name": "Google Takeout",
+        "formats": ["ZIP", "JSON", "CSV", "MBOX", "HTML"],
+        "deletionRequired": false,
+        "processTime": "Minutes to Days",
+        "exportLink": "https://takeout.google.com/",
+        "notes": "Comprehensive export tool for most Google services."
+    },
+    {
+        "name": "Facebook",
+        "formats": ["HTML", "JSON"],
+        "deletionRequired": false,
+        "processTime": "Minutes to Hours",
+        "exportLink": "https://www.facebook.com/dyi/",
+        "notes": "Download Your Information tool."
+    },
+    {
+        "name": "Twitter (X)",
+        "formats": ["JSON", "CSV", "HTML"],
+        "deletionRequired": false,
+        "processTime": "Minutes to Hours",
+        "exportLink": "https://twitter.com/settings/your_twitter_data",
+        "notes": "Archive includes tweets, direct messages, media, etc."
+    },
+    {
+        "name": "Instagram",
+        "formats": ["JSON", "HTML"],
+        "deletionRequired": false,
+        "processTime": "Hours to 2 Days",
+        "exportLink": "https://www.instagram.com/download/request/",
+        "notes": "Request your data through settings or app."
+    },
+    {
+        "name": "LinkedIn",
+        "formats": ["CSV", "JSON", "XML"],
+        "deletionRequired": false,
+        "processTime": "Minutes to Hours",
+        "exportLink": "https://www.linkedin.com/psettings/member-data",
+        "notes": "Multiple data archives available, including connections, messages, etc."
+    },
+    {
+        "name": "GitHub",
+        "formats": ["ZIP", "JSON"],
+        "deletionRequired": false,
+        "processTime": "Minutes",
+        "exportLink": "https://github.com/settings/admin",
+        "notes": "Account data and repository exports are separate processes."
+    },
+    {
+        "name": "Spotify",
+        "formats": ["JSON"],
+        "deletionRequired": false,
+        "processTime": "Days to Weeks",
+        "exportLink": "https://www.spotify.com/account/privacy/",
+        "notes": "Right to portability/download your data. Can take a while."
+    },
+    {
+        "name": "Reddit",
+        "formats": ["JSON"],
+        "deletionRequired": false,
+        "processTime": "Hours to Days",
+        "exportLink": "https://www.reddit.com/settings/data",
+        "notes": "Download your data file."
+    }
+]
