@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export My Data - Public Archive of Data Export Options</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="A public archive of data export options for online services. Find out which services let you export your data, in what formats, and how long it takes.">
+    <meta property="og:title" content="Export My Data">
+    <meta property="og:description" content="A public archive of data export options for online services.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourusername.github.io/export-my-data/">
+    </head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Export My Data</h1>
+            <p class="tagline">A public archive of data export options for online services.</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section id="intro">
+                <p>This project aims to provide a clear and concise overview of data export capabilities offered by various online services. We believe in user control over personal data and want to make it easier for you to understand your options.</p>
+                <div class="search-filter">
+                    <input type="text" id="searchInput" placeholder="Search services...">
+                    <select id="formatFilter">
+                        <option value="">All Formats</option>
+                        </select>
+                    <label>
+                        <input type="checkbox" id="deletionRequiredFilter"> Deletion Required?
+                    </label>
+                </div>
+            </section>
+
+            <section id="services-list">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Formats</th>
+                                <th>Deletion Required?</th>
+                                <th>Process Time</th>
+                                <th>Export Link</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="servicesTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center;">Loading data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p id="noResults" style="display: none; text-align: center; margin-top: 20px;">No services match your criteria.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Export My Data. Created with ❤️ by the <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer">Modcore Team</a>.</p>
+            <p><a href="https://github.com/modcore/export-my-data" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
