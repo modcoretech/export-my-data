@@ -1,528 +1,304 @@
-/* Global Reset & System Fonts */
+/*
+ * Custom CSS for Export My Data - Professional Dark Theme
+ *
+ * This file contains global styles, custom components, and overrides
+ * that complement the Tailwind CSS utilities used in index.html.
+ *
+ * It ensures a clean, modern, and professional aesthetic without
+ * any "neon" elements or clutter.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 1. Global Resets & Base Styles                                             */
+/* -------------------------------------------------------------------------- */
+
+/* Universal box-sizing for consistent layout */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-:root {
-    /* Color Palette */
-    --color-bg-primary: #0a0a0a; /* Deepest dark for body */
-    --color-bg-secondary: #161616; /* For header, footer, interactive elements */
-    --color-bg-card: #202020; /* Slightly lighter for content cards */
-    --color-accent-primary: #00bcd4; /* Teal - main interactive highlight */
-    --color-accent-secondary: #8e24aa; /* Deep Purple - secondary highlight/action */
-    --color-text-primary: #e0e0e0; /* Main text */
-    --color-text-secondary: #a0a0a0; /* Subtler text, descriptions */
-    --color-border: #333333; /* Clean, subtle borders */
-    --color-input-bg: #2a2a2a; /* Input fields */
-    --color-success: #4CAF50; /* For 'Available' indicators */
-    --color-danger: #F44336; /* For 'Required' indicators */
-
-    /* Typography */
+/* Base font and text color - Tailwind classes handle this, but included for clarity */
+body {
+    /* Tailwind equivalent: bg-gray-950 text-gray-100 min-h-screen flex flex-col font-sans antialiased */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     line-height: 1.6;
-}
-
-body {
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
+    color: #e0e0e0; /* Matches Tailwind's gray-100 roughly */
+    background-color: #0a0a0a; /* Matches Tailwind's gray-950 roughly */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden; /* Prevents horizontal scroll from subtle effects */
 }
 
-/* Subtle Animated Background Pattern */
+/* Ensure full height for main elements */
+html, body {
+    height: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Backgrounds & Overlays                                                  */
+/* -------------------------------------------------------------------------- */
+
+/* Subtle background pattern - using CSS gradients for a non-distracting texture */
 .background-pattern {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image:
-        radial-gradient(circle at 10% 20%, rgba(0, 188, 212, 0.04) 1px, transparent 1px),
-        radial-gradient(circle at 80% 90%, rgba(142, 36, 170, 0.04) 1px, transparent 1px);
-    background-size: 50px 50px, 120px 120px;
-    opacity: 0.1;
+    /* Tailwind classes handle `bg-[radial-gradient(...)]` but this demonstrates custom CSS */
+    background: radial-gradient(ellipse at 10% 20%, rgba(0, 188, 212, 0.03) 1px, transparent 1px),
+                radial-gradient(ellipse at 80% 90%, rgba(142, 36, 170, 0.03) 1px, transparent 1px),
+                linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(20,20,20,0.1) 100%);
+    background-size: 50px 50px, 120px 120px, 100% 100%; /* Adjust grid sizes */
+    opacity: 0.2; /* Less opacity than previous iterations */
     z-index: -1;
-    animation: panBackground 60s linear infinite; /* Slow pan animation */
+    animation: panBackground 90s linear infinite; /* Slower pan */
 }
 
 @keyframes panBackground {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 100% 100%; }
+    0% { background-position: 0% 0%, 0% 0%, 0% 0%; }
+    100% { background-position: 100% 100%, 100% 100%, 100% 100%; }
 }
 
-/* Container for Centering Content */
-.container {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 25px;
-    position: relative; /* For z-index context */
-}
+/* -------------------------------------------------------------------------- */
+/* 3. Header & Footer Enhancements                                            */
+/* -------------------------------------------------------------------------- */
 
-/* Header */
 header {
-    background-color: var(--color-bg-secondary);
-    padding: 50px 0;
-    text-align: center;
-    border-bottom: 1px solid var(--color-border);
+    /* Tailwind handles most of this: bg-gray-900 py-12 text-center border-b border-gray-800 z-10 */
     position: relative;
     z-index: 10;
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%); /* Angled bottom edge */
 }
 
 header h1 {
-    margin: 0;
-    color: var(--color-accent-primary);
-    font-size: 3.8em;
-    font-weight: 700;
-    letter-spacing: -0.05em;
-    text-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
+    /* Tailwind handles most of this: text-5xl font-extrabold text-cyan-400 leading-tight tracking-tighter */
+    /* Custom drop shadow and hover effect for a professional glow, not neon */
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.4); /* Cyan glow */
     transition: all 0.3s ease-out;
 }
 header h1:hover {
-    transform: translateY(-5px) scale(1.02);
-    text-shadow: 0 0 25px rgba(0, 188, 212, 0.6);
+    transform: translateY(-3px) scale(1.01);
+    text-shadow: 0 0 20px rgba(6, 182, 212, 0.6); /* Stronger cyan glow on hover */
 }
 
 header .tagline {
-    font-size: 1.4em;
-    color: var(--color-text-secondary);
-    margin-top: 15px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    /* Tailwind handles: text-xl text-gray-400 mt-4 uppercase tracking-wider font-light */
+    font-weight: 300; /* Lighter weight for subtle elegance */
 }
 
-/* Main Content Area */
-main {
-    flex-grow: 1;
-    padding: 40px 0;
-    position: relative;
-    z-index: 5;
-}
-
-/* Intro Section */
-#intro {
-    background-color: var(--color-bg-secondary);
-    padding: 35px;
-    border-radius: 12px;
-    border: 1px solid var(--color-border);
-    margin-bottom: 40px;
-    position: relative;
-    overflow: hidden; /* For pseudo-element background */
-}
-#intro::before { /* Subtle diagonal line background */
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        45deg,
-        rgba(255,255,255,0.02) 0px,
-        rgba(255,255,255,0.02) 2px,
-        transparent 2px,
-        transparent 10px
-    );
-    opacity: 0.1;
-    pointer-events: none;
-}
-
-#intro p {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-    color: var(--color-text-primary);
-    text-align: center;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Filter Controls - The "Command Center" */
-.filter-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Increased gap */
-    justify-content: center;
-    align-items: center;
-    background-color: var(--color-bg-card); /* Distinct background */
-    padding: 25px;
-    border-radius: 10px;
-    border: 1px solid var(--color-border);
-}
-
-.filter-controls input[type="text"],
-.filter-controls select {
-    padding: 14px 20px;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    font-size: 1.05em;
-    background-color: var(--color-input-bg);
-    color: var(--color-text-primary);
-    flex: 1 1 280px; /* Flex-grow, flex-shrink, base-width */
-    max-width: 380px; /* Max width for inputs */
-    transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
-}
-.filter-controls input[type="text"]::placeholder {
-    color: var(--color-text-secondary);
-    opacity: 0.7;
-}
-.filter-controls input[type="text"]:focus,
-.filter-controls select:focus {
-    outline: none;
-    border-color: var(--color-accent-primary);
-    background-color: #383838;
-    transform: translateY(-2px); /* Slight lift on focus */
-}
-
-/* Custom Select Dropdown */
-.select-wrapper {
-    position: relative;
-    flex: 1 1 280px;
-    max-width: 380px;
-}
-.select-wrapper select {
-    width: 100%;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    padding-right: 45px; /* Space for arrow */
-}
-.select-wrapper::after {
-    content: '▼';
-    font-size: 0.7em;
-    color: var(--color-text-secondary);
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
-
-/* Custom Toggle Switch (for Deletion Required) */
-.toggle-switch-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    user-select: none;
-    padding: 10px 15px; /* Add some padding for clickable area */
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-}
-.toggle-switch-container:hover {
-    background-color: var(--color-input-bg);
-}
-
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 28px;
-}
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--color-border);
-    transition: .4s;
-    border-radius: 28px;
-}
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
-    background-color: var(--color-text-primary);
-    transition: .4s;
-    border-radius: 50%;
-}
-input:checked + .slider {
-    background-color: var(--color-accent-primary);
-}
-input:checked + .slider:before {
-    transform: translateX(22px);
-    background-color: var(--color-bg-primary); /* Darker thumb when active */
-}
-
-/* Service Grid (Cards) */
-#services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 35px; /* Larger gap for distinct cards */
-}
-
-.service-card {
-    background-color: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 30px;
-    position: relative;
-    overflow: hidden; /* For subtle effects */
-    display: flex;
-    flex-direction: column;
-    min-height: 280px; /* Ensure consistent height */
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    box-shadow: 0 0 0 rgba(0,0,0,0); /* Explicitly no box-shadow */
-}
-
-.service-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--color-accent-primary);
-}
-
-.service-card::before { /* Subtle border glow on hover */
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary));
-    z-index: -1;
-    filter: blur(10px);
-    opacity: 0;
-    border-radius: 15px; /* Match card radius */
-    transition: opacity 0.3s ease;
-}
-.service-card:hover::before {
-    opacity: 0.3; /* Show subtle glow on hover */
-}
-
-
-.service-card h3 {
-    color: var(--color-accent-primary);
-    font-size: 2.2em;
-    font-weight: 600;
-    margin-bottom: 15px;
-    letter-spacing: -0.03em;
-    border-bottom: 1px solid rgba(var(--color-accent-primary-rgb), 0.2); /* Subtle line below title */
-    padding-bottom: 10px;
-}
-
-.format-tags {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.format-tag {
-    background-color: var(--color-input-bg);
-    color: var(--color-text-secondary);
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 0.85em;
-    font-weight: 500;
-    border: 1px solid var(--color-border);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-.format-tag:hover {
-    background-color: var(--color-accent-secondary);
-    color: var(--color-text-primary);
-}
-
-.service-card-info {
-    flex-grow: 1;
-    font-size: 1em;
-    color: var(--color-text-primary);
-}
-
-.service-card-info p {
-    margin-bottom: 10px;
-    line-height: 1.5;
-}
-
-.service-card-info strong {
-    color: var(--color-accent-primary); /* Highlight labels */
-    font-weight: 600;
-}
-
-.export-action {
-    margin-top: auto;
-    padding-top: 25px; /* More space for the button */
-    border-top: 1px solid var(--color-border);
-    text-align: right;
-}
-
-.export-action a {
-    display: inline-flex; /* Use flex for icon + text */
-    align-items: center;
-    gap: 8px;
-    background-color: var(--color-accent-secondary);
-    color: #ffffff;
-    padding: 14px 28px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.05em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.export-action a:hover {
-    background-color: var(--color-accent-primary);
-    transform: translateY(-4px) scale(1.02);
-}
-.export-action a svg { /* Icon styling */
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-}
-
-.info-message {
-    text-align: center;
-    font-size: 1.4em;
-    color: var(--color-text-secondary);
-    margin-top: 60px;
-    grid-column: 1 / -1;
-}
-
-.loading-state {
-    animation: bounceFade 2s infinite ease-in-out;
-}
-
-@keyframes bounceFade {
-    0%, 100% { opacity: 1; transform: translateY(0); }
-    50% { opacity: 0.6; transform: translateY(-10px); }
-}
-
-.empty-state {
-    color: var(--color-accent-secondary);
-    font-weight: 500;
-}
-
-/* Footer */
 footer {
-    background-color: var(--color-bg-secondary);
-    color: var(--color-text-secondary);
-    text-align: center;
-    padding: 30px 0;
-    margin-top: 50px;
-    border-top: 1px solid var(--color-border);
+    /* Tailwind handles most of this: bg-gray-900 py-8 text-center border-t border-gray-800 z-10 */
     position: relative;
     z-index: 10;
 }
 
-footer a {
-    color: var(--color-accent-primary);
-    text-decoration: none;
-    transition: color 0.2s ease;
+/* -------------------------------------------------------------------------- */
+/* 4. Filter Controls (The "Command Center")                                  */
+/* -------------------------------------------------------------------------- */
+
+/* General container styling for filters - mostly Tailwind classes */
+.filter-controls {
+    /* Tailwind: flex flex-wrap justify-center gap-6 p-6 rounded-lg bg-gray-800 border border-gray-700 */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); /* Very subtle inner shadow for depth */
 }
 
-footer a:hover {
-    color: var(--color-accent-primary);
-    text-decoration: underline;
+/* Input fields, select, and toggle - focus/hover states */
+.filter-controls input[type="text"]:focus,
+.filter-controls select:focus {
+    /* Tailwind handles ring-2 ring-cyan-500 border-transparent */
+    /* Add a slight transform for interactive feel */
+    transform: translateY(-1px);
 }
 
-/* Utility classes for status indicators */
+/* Custom select arrow - for a more consistent look across browsers */
+.select-wrapper {
+    position: relative; /* Container for relative positioning of arrow */
+}
+.select-wrapper::after {
+    content: '▼'; /* Unicode down arrow */
+    font-size: 0.6em; /* Smaller arrow */
+    color: theme('colors.gray.400'); /* Matches Tailwind text-gray-400 */
+    position: absolute;
+    right: 1rem; /* Tailwind: px-4 -> 1rem */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Ensures clicks go through to the select */
+}
+
+/* Custom Toggle Switch styling */
+/* Tailwind classes on input and div are powerful, but this is a specific CSS override */
+.toggle-switch-container {
+    /* Tailwind handles: flex items-center space-x-3 cursor-pointer p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200 */
+    /* No custom CSS needed here as Tailwind handles it cleanly */
+}
+.toggle-switch input.sr-only:focus + div {
+    /* Custom focus style for the hidden input visually applied to the slider */
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5); /* A clean blue focus ring */
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* 5. Service Cards & Information Display                                     */
+/* -------------------------------------------------------------------------- */
+
+.service-card {
+    /* Tailwind handles: bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col */
+    /* Tailwind handles: hover:transform hover:-translate-y-2 transition-all duration-300 relative overflow-hidden */
+    box-shadow: 0 0 0 rgba(0,0,0,0); /* Ensure no default box-shadow */
+    position: relative; /* Needed for pseudo-element glow */
+}
+
+/* Subtle border glow on hover for service cards - professional, not neon */
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: -2px; /* Slight overlap to appear as outer glow */
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, theme('colors.cyan.500'), theme('colors.fuchsia.600')); /* Gradient accent */
+    z-index: -1;
+    filter: blur(8px); /* Soft blur for glow effect */
+    opacity: 0;
+    border-radius: 0.875rem; /* Match card rounded-xl (14px/0.875rem) */
+    transition: opacity 0.3s ease-out;
+}
+.service-card:hover::before {
+    opacity: 0.25; /* Subtle glow on hover */
+}
+
+.service-card h3 {
+    /* Tailwind handles: text-2xl font-bold text-cyan-400 mb-4 pb-3 border-b border-gray-700 */
+    letter-spacing: -0.02em; /* Slightly tighter for boldness */
+}
+
+.format-tag {
+    /* Tailwind handles: bg-gray-700 text-gray-300 px-3 py-1 rounded-md text-sm font-medium border border-gray-600 */
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.format-tag:hover {
+    background-color: theme('colors.gray.600'); /* Slightly lighter on hover */
+    color: theme('colors.gray.100');
+}
+
+/* Status Indicators (Deletion Required: Yes/No) */
 .status-indicator {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8em;
-    font-weight: 600;
-    margin-left: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+    /* Tailwind handles: inline-block px-2 py-1 rounded-md text-xs font-semibold uppercase tracking-wide */
+    margin-left: 0.5rem; /* Consistent spacing from label */
 }
 
 .status-indicator.available {
-    background-color: rgba(76, 175, 80, 0.2); /* Green background */
-    color: var(--color-success);
-    border: 1px solid var(--color-success);
+    /* Tailwind handles: bg-green-900 text-green-300 border border-green-700 */
+    background-color: rgba(76, 175, 80, 0.15); /* Slightly more subtle opacity */
+    color: #4CAF50; /* Green */
+    border-color: #4CAF50;
 }
 
 .status-indicator.required {
-    background-color: rgba(244, 67, 54, 0.2); /* Red background */
-    color: var(--color-danger);
-    border: 1px solid var(--color-danger);
+    /* Tailwind handles: bg-red-900 text-red-300 border border-red-700 */
+    background-color: rgba(244, 67, 54, 0.15); /* Slightly more subtle opacity */
+    color: #F44336; /* Red */
+    border-color: #F44336;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-    .container {
-        padding: 20px;
-    }
-    header h1 {
-        font-size: 3.2em;
-    }
-    .filter-controls {
-        gap: 15px;
-        padding: 20px;
-    }
-    #services-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 30px;
-    }
+/* Export Action Button */
+.export-action a {
+    /* Tailwind handles: inline-flex items-center px-6 py-3 bg-fuchsia-700 text-white font-semibold rounded-lg */
+    /* Tailwind handles: hover:bg-fuchsia-600 transition-colors duration-200 transform hover:-translate-y-1 */
+    font-size: 0.95rem; /* Slightly smaller for balance */
+    letter-spacing: 0.03em;
+}
+.export-action a svg {
+    /* Tailwind handles: ml-2 w-5 h-5 fill-current */
+    flex-shrink: 0; /* Prevents icon from shrinking on small screens */
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* 6. Info & Loading Messages                                                 */
+/* -------------------------------------------------------------------------- */
+
+/* Messages that appear outside of cards (loading, no results) */
+.info-message {
+    /* Tailwind handles: col-span-full text-center text-xl text-gray-400 */
+    margin-top: 3rem; /* More space for emphasis */
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    background-color: theme('colors.gray.800');
+    border: 1px dashed theme('colors.gray.700'); /* Dashed border for messages */
+    font-style: italic;
+}
+
+.loading-state {
+    /* Tailwind handles: animate-pulse */
+    color: theme('colors.cyan.400'); /* Loading message in accent color */
+}
+
+.empty-state {
+    /* Tailwind handles: text-fuchsia-400 */
+    color: theme('colors.fuchsia.400'); /* No results message in accent color */
+}
+
+/* -------------------------------------------------------------------------- */
+/* 7. Responsive Adjustments (already largely handled by Tailwind)            */
+/* -------------------------------------------------------------------------- */
+
+/* Custom media queries for specific adjustments not covered by Tailwind's defaults */
 @media (max-width: 768px) {
+    /* Adjust header font size on smaller screens more precisely */
     header h1 {
-        font-size: 2.8em;
+        font-size: 2.5rem;
     }
     header .tagline {
-        font-size: 1.2em;
+        font-size: 1.1rem;
     }
-    .filter-controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 20px;
+    /* Filter inputs to full width on mobile */
+    .filter-controls input[type="text"],
+    .select-wrapper,
+    .toggle-switch-container {
+        width: 100%;
+        max-width: none; /* Override max-width for full width */
     }
-    .filter-controls input, .select-wrapper, .toggle-switch-container {
-        max-width: 100%;
-    }
-    #services-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
+    /* Cards stack vertically */
     .service-card {
-        min-height: auto; /* Allow height to adjust for content */
+        padding: 1.5rem;
+        min-height: auto; /* Allow height to adjust */
+    }
+    .service-card h3 {
+        font-size: 1.8rem;
     }
     .export-action a {
-        width: 100%;
-        justify-content: center; /* Center button text */
+        padding: 0.75rem 1.25rem; /* Smaller button on mobile */
+        font-size: 0.9rem;
+        justify-content: center; /* Center content of the button */
+        width: 100%; /* Full width button on mobile */
     }
 }
 
 @media (max-width: 480px) {
+    /* Even smaller adjustments for very small mobile screens */
     header h1 {
-        font-size: 2.2em;
+        font-size: 2rem;
     }
     header .tagline {
-        font-size: 1em;
+        font-size: 0.9rem;
     }
     #intro p {
-        font-size: 1.05em;
+        font-size: 1rem;
+    }
+    .filter-controls {
+        padding: 1rem;
+        gap: 1rem;
     }
     .filter-controls input[type="text"],
     .filter-controls select {
-        padding: 12px 15px;
-        font-size: 0.95em;
+        padding: 0.75rem 1rem;
     }
     .service-card h3 {
-        font-size: 1.8em;
-    }
-    .format-tag {
-        font-size: 0.75em;
-        padding: 6px 10px;
+        font-size: 1.6rem;
     }
 }
