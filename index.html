@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export My Data - Your Digital Freedom Hub</title>
+    <title>Export My Data - Take Control of Your Digital Life</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/style.css"> <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <meta name="description" content="Unlock your digital freedom. A comprehensive hub for understanding and managing data export options from online services. Get insights on formats, process times, and direct links.">
-    <meta property="og:title" content="Export My Data - Your Digital Freedom Hub">
-    <meta property="og:description" content="A comprehensive hub for understanding and managing data export options for online services.">
+    <link rel="stylesheet" href="assets/css/custom.css"> <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Find out how to export your data from popular online services. Get direct links, understand data formats, and learn about process times. Your data, your control.">
+    <meta property="og:title" content="Export My Data - Take Control of Your Digital Life">
+    <meta property="og:description" content="A simple guide to exporting your data from various online services.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://modcoretech.github.io/export-my-data/">
 </head>
 <body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col font-sans antialiased">
-    <div class="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-950 to-black opacity-30 z-0"></div>
+    <div class="background-pattern"></div>
 
     <header class="relative bg-gray-900 py-12 text-center border-b border-gray-800 z-10">
         <div class="container mx-auto px-6">
@@ -21,7 +21,7 @@
                 Export My Data
             </h1>
             <p class="text-xl text-gray-400 mt-4 uppercase tracking-wider font-light">
-                Your Data. Your Control. Unlocked.
+                Your Data. Your Control. Simple.
             </p>
         </div>
     </header>
@@ -30,36 +30,37 @@
         <div class="container mx-auto px-6">
             <section class="bg-gray-900 p-8 rounded-xl border border-gray-800 mb-10 shadow-lg">
                 <p class="text-lg text-gray-200 text-center max-w-3xl mx-auto mb-8">
-                    Empowering you with transparent information about data export capabilities from various online services. Understand your choices, take action, and manage your digital life with confidence.
+                    Easily find out how to get your data back from popular online services. We provide direct links, explain data formats, and give you an idea of how long it takes.
                 </p>
 
                 <div class="flex flex-wrap justify-center gap-6 p-6 rounded-lg bg-gray-800 border border-gray-700">
-                    <input type="text" id="searchInput" placeholder="Search services..." aria-label="Search services"
+                    <input type="text" id="searchInput" placeholder="Search service names or notes..." aria-label="Search by service name or notes"
                            class="flex-1 min-w-[280px] max-w-lg p-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200">
 
-                    <div class="relative flex-1 min-w-[200px] max-w-[280px]">
-                        <select id="formatFilter" aria-label="Filter by format"
+                    <div class="relative flex-1 min-w-[200px] max-w-[280px] select-wrapper">
+                        <select id="formatFilter" aria-label="Filter by data format"
                                 class="w-full p-3 pr-10 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 appearance-none focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200">
-                            <option value="">All Formats</option>
+                            <option value="">All Data Formats</option>
                             </select>
-                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
                     </div>
 
-                    <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200">
+                    <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200 tooltip-container">
                         <span class="text-gray-200">Deletion Required?</span>
                         <div class="relative">
-                            <input type="checkbox" id="deletionRequiredFilter" class="sr-only peer">
+                            <input type="checkbox" id="deletionRequiredFilter" class="sr-only peer" aria-label="Filter by services where deletion is required for data removal">
                             <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-fuchsia-600 after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
                         </div>
+                        <span class="tooltip-icon" aria-describedby="tooltip-deletion">i</span>
+                        <span id="tooltip-deletion" role="tooltip" class="tooltip-text">
+                            Show services where you might need to delete your account to fully remove your data.
+                        </span>
                     </label>
                 </div>
             </section>
 
             <section id="services-grid" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                <p id="loadingMessage" class="col-span-full text-center text-xl text-gray-400 animate-pulse">Loading services...</p>
-                <p id="noResults" class="col-span-full text-center text-xl text-fuchsia-400 hidden">No services match your current criteria. Try adjusting your filters.</p>
+                <p id="loadingMessage" class="col-span-full text-center text-xl text-gray-400 animate-pulse info-message loading-state">Loading service information...</p>
+                <p id="noResults" class="col-span-full text-center text-xl text-fuchsia-400 hidden info-message empty-state">No services match your filters. Try adjusting your search or selections.</p>
             </section>
         </div>
     </main>
@@ -67,15 +68,15 @@
     <footer class="relative bg-gray-900 py-8 text-center border-t border-gray-800 z-10">
         <div class="container mx-auto px-6">
             <p class="text-gray-400 text-sm">
-                &copy; <span id="currentYear"></span> Export My Data. Crafted with precision by the
+                © <span id="currentYear"></span> Export My Data. Made with care by the
                 <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">Modcore Team</a>.
             </p>
             <p class="text-gray-500 text-xs mt-2">
-                <a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">Explore on GitHub</a>
+                <a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">View on GitHub</a>
                 |
-                <a href="https://github.com/modcoretech/export-my-data/issues" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">Report an Issue</a>
+                <a href="https://github.com/modcoretech/export-my-data/issues" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">Report a Problem</a>
                 |
-                <a href="https://github.com/modcoretech/export-my-data/discussions" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">Join Discussions</a>
+                <a href="https://github.com/modcoretech/export-my-data/discussions" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:underline">Join the Discussion</a>
             </p>
         </div>
     </footer>
