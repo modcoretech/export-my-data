@@ -3,58 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export My Data - Your Digital Portability Hub</title>
+    <title>Export My Data - Your Digital Freedom Hub</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <meta name="description" content="A unique public archive of data export options for online services. Understand your data portability, formats, process times, and direct links effortlessly.">
-    <meta property="og:title" content="Export My Data">
-    <meta property="og:description" content="A unique public archive of data export options for online services.">
+    <meta name="description" content="Unlock your digital freedom. A comprehensive hub for understanding and managing data export options from online services. Get insights on formats, process times, and direct links.">
+    <meta property="og:title" content="Export My Data - Your Digital Freedom Hub">
+    <meta property="og:description" content="A comprehensive hub for understanding and managing data export options from online services.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://modcoretech.github.io/export-my-data/">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 </head>
 <body>
     <div class="background-pattern"></div>
-    <header>
-        <div class="container">
-            <h1>Export My Data</h1>
-            <p class="tagline">Navigate Your Digital Footprint.</p>
-        </div>
-    </header>
+    <div id="app">
+        <header>
+            <div class="container">
+                <h1>Export My Data</h1>
+                <p class="tagline">Your Data. Your Control. Unlocked.</p>
+            </div>
+        </header>
 
-    <main>
-        <div class="container">
-            <section id="intro">
-                <p>Empowering you with transparent information about data export options from various online services. Take control of your data, understand your choices, and act with confidence.</p>
-                <div class="filter-controls">
-                    <input type="text" id="searchInput" placeholder="Search for a service..." aria-label="Search for a service">
-                    <div class="filter-group">
-                        <label for="formatFilter" class="sr-only">Filter by format</label>
-                        <select id="formatFilter" aria-label="Filter by format">
-                            <option value="">All Formats</option>
+        <main>
+            <div class="container">
+                <section id="intro">
+                    <p>Empowering you with transparent information about data export capabilities from various online services. Understand your choices, take action, and manage your digital life with confidence.</p>
+                    <div class="filter-controls">
+                        <input type="text" v-model="searchTerm" @input="applyFilters" placeholder="Search services..." aria-label="Search services">
+
+                        <div class="select-wrapper">
+                            <select v-model="selectedFormat" @change="applyFilters" aria-label="Filter by format">
+                                <option value="">All Formats</option>
+                                <option v-for="format in availableFormats" :key="format" :value="format">{{ format }}</option>
                             </select>
-                        <span class="select-arrow"></span>
+                            <span class="select-arrow"></span>
+                        </div>
+
+                        <label class="toggle-switch-container">
+                            Deletion Required?
+                            <div class="toggle-switch">
+                                <input type="checkbox" v-model="deletionRequired" @change="applyFilters">
+                                <span class="slider round"></span>
+                            </div>
+                        </label>
                     </div>
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="deletionRequiredFilter">
-                        <span class="checkmark"></span>
-                        Deletion Required?
-                    </label>
-                </div>
-            </section>
+                </section>
 
-            <section id="services-grid">
-                <p id="loadingMessage" class="info-message loading-state">Fetching insights...</p>
-                <p id="noResults" class="info-message empty-state" style="display: none;">No services match your current criteria. Try adjusting your filters.</p>
-            </section>
-        </div>
-    </main>
+                <section id="services-grid">
+                    <p v-if="loading" class="info-message loading-state">Fetching insights...</p>
+                    <p v-else-if="filteredServices.length === 0" class="info-message empty-state">No services match your current criteria. Try adjusting your filters.</p>
+                    
+                    <ServiceCard v-for="service in filteredServices" :key="service.name" :service="service" />
+                </section>
+            </div>
+        </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; <span id="currentYear"></span> Export My Data. Crafted with precision by the <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer">Modcore Team</a>.</p>
-            <p><a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer">Explore on GitHub</a></p>
-        </div>
-    </footer>
+        <footer>
+            <div class="container">
+                <p>© {{ currentYear }} Export My Data. Crafted with precision by the <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer">Modcore Team</a>.</p>
+                <p>
+                    <a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer">Explore on GitHub</a>
+                    | <a href="https://github.com/modcoretech/export-my-data/issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
+                    | <a href="https://github.com/modcoretech/export-my-data/discussions" target="_blank" rel="noopener noreferrer">Join Discussions</a>
+                </p>
+            </div>
+        </footer>
+    </div>
 
     <script src="assets/js/main.js"></script>
 </body>
