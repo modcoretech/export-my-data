@@ -6,11 +6,14 @@
     <title>Export My Data - Public Archive of Data Export Options</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta name="description" content="A public archive of data export options for online services. Find out which services let you export your data, in what formats, and how long it takes.">
     <meta property="og:title" content="Export My Data">
     <meta property="og:description" content="A public archive of data export options for online services.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yourusername.github.io/export-my-data/">
+    <meta property="og:url" content="https://modcoretech.github.io/export-my-data/">
     </head>
 <body>
     <header>
@@ -23,47 +26,31 @@
     <main>
         <div class="container">
             <section id="intro">
-                <p>This project aims to provide a clear and concise overview of data export capabilities offered by various online services. We believe in user control over personal data and want to make it easier for you to understand your options.</p>
-                <div class="search-filter">
-                    <input type="text" id="searchInput" placeholder="Search services...">
-                    <select id="formatFilter">
-                        <option value="">All Formats</option>
-                        </select>
-                    <label>
+                <p>This project helps you understand and manage your digital footprint by providing clear information on data export options for various online services. We believe in your control over your personal data.</p>
+                <div class="filter-controls">
+                    <input type="text" id="searchInput" placeholder="Search services..." aria-label="Search services">
+                    <div class="select-wrapper">
+                        <select id="formatFilter" aria-label="Filter by format">
+                            <option value="">All Formats</option>
+                            </select>
+                    </div>
+                    <label class="checkbox-label">
                         <input type="checkbox" id="deletionRequiredFilter"> Deletion Required?
                     </label>
                 </div>
             </section>
 
-            <section id="services-list">
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Service</th>
-                                <th>Formats</th>
-                                <th>Deletion Required?</th>
-                                <th>Process Time</th>
-                                <th>Export Link</th>
-                                <th>Notes</th>
-                            </tr>
-                        </thead>
-                        <tbody id="servicesTableBody">
-                            <tr>
-                                <td colspan="6" style="text-align: center;">Loading data...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p id="noResults" style="display: none; text-align: center; margin-top: 20px;">No services match your criteria.</p>
+            <section id="services-grid">
+                <p id="loadingMessage" class="info-message">Loading data...</p>
+                <p id="noResults" class="info-message" style="display: none;">No services match your criteria.</p>
             </section>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; <span id="currentYear"></span> Export My Data. Created with ❤️ by the <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer">Modcore Team</a>.</p>
-            <p><a href="https://github.com/modcore/export-my-data" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
+            <p>&copy; <span id="currentYear"></span> Export My Data. Crafted with &hearts; by the <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer">Modcore Team</a>.</p>
+            <p><a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
         </div>
     </footer>
 
