@@ -25,8 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
             applyFilters(); // Initial render after fetching
         } catch (error) {
             console.error('Failed to fetch services:', error);
-            servicesGrid.innerHTML = `<p class="info-message error-message">Error loading data. Please try again later.</p>`;
+            servicesGrid.innerHTML = `<p class="info-message error-message">Failed to load data. Please check your internet connection or try again later.</p>`;
             loadingMessage.style.display = 'none';
+            noResultsMessage.style.display = 'none'; // Ensure this is hidden on error
         }
     }
 
@@ -62,20 +63,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const serviceCard = document.createElement('div');
             serviceCard.classList.add('service-card');
 
-            const formatsHtml = service.formats && Array.isArray(service.formats)
+            const formatsHtml = service.formats && Array.isArray(service.formats) && service.formats.length > 0
                 ? `<div class="format-tags">${service.formats.map(format => `<span class="format-tag">${format.toUpperCase()}</span>`).join('')}</div>`
                 : '<div class="format-tags"><span class="format-tag">N/A</span></div>';
 
             const exportLinkHtml = service.exportLink
-                ? `<div class="export-link"><a href="${service.exportLink}" target="_blank" rel="noopener noreferrer">Go to Export Page &rarr;</a></div>`
-                : '<div class="export-link"><span class="info-message">No direct link available</span></div>';
+                ? `<div class="export-action"><a href="${service.exportLink}" target="_blank" rel="noopener noreferrer">Go to Export Page</a></div>`
+                : `<div class="export-action"><span class="info-message-small">No direct link available</span></div>`;
 
             serviceCard.innerHTML = `
                 <h3>${service.name}</h3>
                 ${formatsHtml}
-                <p><strong>Deletion Required:</strong> ${service.deletionRequired ? 'Yes' : 'No'}</p>
-                <p><strong>Process Time:</strong> ${service.processTime || 'Varies'}</p>
-                <p><strong>Notes:</strong> ${service.notes || 'No specific notes.'}</p>
+                <div class="service-card-info">
+                    <p><strong>Deletion Required:</strong> ${service.deletionRequired ? 'Yes' : 'No'}</p>
+                    <p><strong>Process Time:</strong> ${service.processTime || 'Varies by data volume'}</p>
+                    <p><strong>Notes:</strong> ${service.notes || 'No specific notes available.'}</p>
+                </div>
                 ${exportLinkHtml}
             `;
             servicesGrid.appendChild(serviceCard);
@@ -89,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const filteredServices = allServices.filter(service => {
             const nameMatch = service.name.toLowerCase().includes(searchTerm);
-            const notesMatch = (service.notes && service.notes.toLowerCase().includes(searchTerm));
+            // Search in notes only if notes exist and are not empty
+            const notesMatch = service.notes && service.notes.toLowerCase().includes(searchTerm);
             const matchesSearch = nameMatch || notesMatch;
 
             const matchesFormat = selectedFormat === '' ||
