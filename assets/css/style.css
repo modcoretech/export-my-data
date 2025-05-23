@@ -49,7 +49,6 @@ html, body {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Tailwind classes handle `bg-[radial-gradient(...)]` but this demonstrates custom CSS */
     background: radial-gradient(ellipse at 10% 20%, rgba(0, 188, 212, 0.03) 1px, transparent 1px),
                 radial-gradient(ellipse at 80% 90%, rgba(142, 36, 170, 0.03) 1px, transparent 1px),
                 linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(20,20,20,0.1) 100%);
@@ -69,14 +68,11 @@ html, body {
 /* -------------------------------------------------------------------------- */
 
 header {
-    /* Tailwind handles most of this: bg-gray-900 py-12 text-center border-b border-gray-800 z-10 */
     position: relative;
     z-index: 10;
 }
 
 header h1 {
-    /* Tailwind handles most of this: text-5xl font-extrabold text-cyan-400 leading-tight tracking-tighter */
-    /* Custom drop shadow and hover effect for a professional glow, not neon */
     text-shadow: 0 0 10px rgba(6, 182, 212, 0.4); /* Cyan glow */
     transition: all 0.3s ease-out;
 }
@@ -86,12 +82,10 @@ header h1:hover {
 }
 
 header .tagline {
-    /* Tailwind handles: text-xl text-gray-400 mt-4 uppercase tracking-wider font-light */
     font-weight: 300; /* Lighter weight for subtle elegance */
 }
 
 footer {
-    /* Tailwind handles most of this: bg-gray-900 py-8 text-center border-t border-gray-800 z-10 */
     position: relative;
     z-index: 10;
 }
@@ -100,21 +94,15 @@ footer {
 /* 4. Filter Controls (The "Command Center")                                  */
 /* -------------------------------------------------------------------------- */
 
-/* General container styling for filters - mostly Tailwind classes */
 .filter-controls {
-    /* Tailwind: flex flex-wrap justify-center gap-6 p-6 rounded-lg bg-gray-800 border border-gray-700 */
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); /* Very subtle inner shadow for depth */
 }
 
-/* Input fields, select, and toggle - focus/hover states */
 .filter-controls input[type="text"]:focus,
 .filter-controls select:focus {
-    /* Tailwind handles ring-2 ring-cyan-500 border-transparent */
-    /* Add a slight transform for interactive feel */
     transform: translateY(-1px);
 }
 
-/* Custom select arrow - for a more consistent look across browsers */
 .select-wrapper {
     position: relative; /* Container for relative positioning of arrow */
 }
@@ -129,158 +117,222 @@ footer {
     pointer-events: none; /* Ensures clicks go through to the select */
 }
 
-/* Custom Toggle Switch styling */
-/* Tailwind classes on input and div are powerful, but this is a specific CSS override */
-.toggle-switch-container {
-    /* Tailwind handles: flex items-center space-x-3 cursor-pointer p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200 */
-    /* No custom CSS needed here as Tailwind handles it cleanly */
-}
 .toggle-switch input.sr-only:focus + div {
-    /* Custom focus style for the hidden input visually applied to the slider */
     box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5); /* A clean blue focus ring */
 }
 
+/* Tooltip styles */
+.tooltip-container {
+    position: relative;
+    display: inline-block; /* Allows tooltip to position relative to label */
+}
+
+.tooltip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: theme('colors.gray.600');
+    color: theme('colors.gray.200');
+    font-size: 0.7rem;
+    font-weight: bold;
+    cursor: help; /* Indicates interactivity */
+    margin-left: 0.5rem;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    width: 200px; /* Fixed width for better readability */
+    background-color: theme('colors.gray.700');
+    color: theme('colors.gray.200');
+    text-align: center;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    position: absolute;
+    z-index: 20; /* Above other content */
+    bottom: 125%; /* Position above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)); /* Subtle shadow */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    font-size: 0.8rem;
+    white-space: normal; /* Allow text to wrap */
+}
+
+.tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: theme('colors.gray.700') transparent transparent transparent; /* Arrow pointing down */
+}
+
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(-5px); /* Slight lift */
+}
 
 /* -------------------------------------------------------------------------- */
 /* 5. Service Cards & Information Display                                     */
 /* -------------------------------------------------------------------------- */
 
 .service-card {
-    /* Tailwind handles: bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col */
-    /* Tailwind handles: hover:transform hover:-translate-y-2 transition-all duration-300 relative overflow-hidden */
     box-shadow: 0 0 0 rgba(0,0,0,0); /* Ensure no default box-shadow */
     position: relative; /* Needed for pseudo-element glow */
+    opacity: 0; /* Hidden by default for fade-in animation */
+    transform: translateY(20px); /* Start slightly below */
+    animation: fadeInSlideUp 0.5s ease-out forwards; /* Apply animation */
 }
 
-/* Subtle border glow on hover for service cards - professional, not neon */
+/* Animation for individual cards appearing */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply delay to cards for staggered effect */
+.service-card:nth-child(1) { animation-delay: 0.05s; }
+.service-card:nth-child(2) { animation-delay: 0.10s; }
+.service-card:nth-child(3) { animation-delay: 0.15s; }
+.service-card:nth-child(4) { animation-delay: 0.20s; }
+.service-card:nth-child(5) { animation-delay: 0.25s; }
+.service-card:nth-child(6) { animation-delay: 0.30s; }
+/* ... continue for more cards or use JS to apply dynamic delays */
+/* The main.js will also handle setting `animation-delay` for consistent staggering */
+
+
 .service-card::before {
     content: '';
     position: absolute;
-    top: -2px; /* Slight overlap to appear as outer glow */
+    top: -2px;
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, theme('colors.cyan.500'), theme('colors.fuchsia.600')); /* Gradient accent */
+    background: linear-gradient(45deg, theme('colors.cyan.500'), theme('colors.fuchsia.600'));
     z-index: -1;
-    filter: blur(8px); /* Soft blur for glow effect */
+    filter: blur(8px);
     opacity: 0;
-    border-radius: 0.875rem; /* Match card rounded-xl (14px/0.875rem) */
+    border-radius: 0.875rem;
     transition: opacity 0.3s ease-out;
 }
 .service-card:hover::before {
-    opacity: 0.25; /* Subtle glow on hover */
+    opacity: 0.25;
 }
 
 .service-card h3 {
-    /* Tailwind handles: text-2xl font-bold text-cyan-400 mb-4 pb-3 border-b border-gray-700 */
-    letter-spacing: -0.02em; /* Slightly tighter for boldness */
+    letter-spacing: -0.02em;
 }
 
 .format-tag {
-    /* Tailwind handles: bg-gray-700 text-gray-300 px-3 py-1 rounded-md text-sm font-medium border border-gray-600 */
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 .format-tag:hover {
-    background-color: theme('colors.gray.600'); /* Slightly lighter on hover */
+    background-color: theme('colors.gray.600');
     color: theme('colors.gray.100');
 }
 
-/* Status Indicators (Deletion Required: Yes/No) */
 .status-indicator {
-    /* Tailwind handles: inline-block px-2 py-1 rounded-md text-xs font-semibold uppercase tracking-wide */
-    margin-left: 0.5rem; /* Consistent spacing from label */
+    margin-left: 0.5rem;
 }
 
 .status-indicator.available {
-    /* Tailwind handles: bg-green-900 text-green-300 border border-green-700 */
-    background-color: rgba(76, 175, 80, 0.15); /* Slightly more subtle opacity */
-    color: #4CAF50; /* Green */
+    background-color: rgba(76, 175, 80, 0.15);
+    color: #4CAF50;
     border-color: #4CAF50;
 }
 
 .status-indicator.required {
-    /* Tailwind handles: bg-red-900 text-red-300 border border-red-700 */
-    background-color: rgba(244, 67, 54, 0.15); /* Slightly more subtle opacity */
-    color: #F44336; /* Red */
+    background-color: rgba(244, 67, 54, 0.15);
+    color: #F44336;
     border-color: #F44336;
 }
 
-/* Export Action Button */
 .export-action a {
-    /* Tailwind handles: inline-flex items-center px-6 py-3 bg-fuchsia-700 text-white font-semibold rounded-lg */
-    /* Tailwind handles: hover:bg-fuchsia-600 transition-colors duration-200 transform hover:-translate-y-1 */
-    font-size: 0.95rem; /* Slightly smaller for balance */
+    font-size: 0.95rem;
     letter-spacing: 0.03em;
 }
 .export-action a svg {
-    /* Tailwind handles: ml-2 w-5 h-5 fill-current */
-    flex-shrink: 0; /* Prevents icon from shrinking on small screens */
+    flex-shrink: 0;
 }
 
+/* Last Verified Date styling */
+.last-verified {
+    font-size: 0.75rem;
+    color: theme('colors.gray.400');
+    margin-top: 0.5rem;
+    text-align: right;
+    font-style: italic;
+    padding-top: 0.5rem;
+    border-top: 1px dashed theme('colors.gray.700'); /* Subtle separator */
+}
 
 /* -------------------------------------------------------------------------- */
 /* 6. Info & Loading Messages                                                 */
 /* -------------------------------------------------------------------------- */
 
-/* Messages that appear outside of cards (loading, no results) */
 .info-message {
-    /* Tailwind handles: col-span-full text-center text-xl text-gray-400 */
-    margin-top: 3rem; /* More space for emphasis */
+    margin-top: 3rem;
     padding: 1.5rem;
     border-radius: 0.75rem;
     background-color: theme('colors.gray.800');
-    border: 1px dashed theme('colors.gray.700'); /* Dashed border for messages */
+    border: 1px dashed theme('colors.gray.700');
     font-style: italic;
 }
 
 .loading-state {
-    /* Tailwind handles: animate-pulse */
-    color: theme('colors.cyan.400'); /* Loading message in accent color */
+    color: theme('colors.cyan.400');
 }
 
 .empty-state {
-    /* Tailwind handles: text-fuchsia-400 */
-    color: theme('colors.fuchsia.400'); /* No results message in accent color */
+    color: theme('colors.fuchsia.400');
 }
 
 /* -------------------------------------------------------------------------- */
 /* 7. Responsive Adjustments (already largely handled by Tailwind)            */
 /* -------------------------------------------------------------------------- */
 
-/* Custom media queries for specific adjustments not covered by Tailwind's defaults */
 @media (max-width: 768px) {
-    /* Adjust header font size on smaller screens more precisely */
     header h1 {
         font-size: 2.5rem;
     }
     header .tagline {
         font-size: 1.1rem;
     }
-    /* Filter inputs to full width on mobile */
     .filter-controls input[type="text"],
     .select-wrapper,
     .toggle-switch-container {
         width: 100%;
-        max-width: none; /* Override max-width for full width */
+        max-width: none;
     }
-    /* Cards stack vertically */
     .service-card {
         padding: 1.5rem;
-        min-height: auto; /* Allow height to adjust */
+        min-height: auto;
     }
     .service-card h3 {
         font-size: 1.8rem;
     }
     .export-action a {
-        padding: 0.75rem 1.25rem; /* Smaller button on mobile */
+        padding: 0.75rem 1.25rem;
         font-size: 0.9rem;
-        justify-content: center; /* Center content of the button */
-        width: 100%; /* Full width button on mobile */
+        justify-content: center;
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
-    /* Even smaller adjustments for very small mobile screens */
     header h1 {
         font-size: 2rem;
     }
