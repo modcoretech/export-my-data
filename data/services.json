@@ -1,11 +1,11 @@
 [
     {
         "name": "Google Takeout",
-        "formats": ["ZIP", "JSON", "CSV", "MBOX", "HTML"],
+        "formats": ["ZIP", "JSON", "CSV", "MBOX", "HTML", "TXT"],
         "deletionRequired": false,
         "processTime": "Minutes to Days",
         "exportLink": "https://takeout.google.com/",
-        "notes": "Comprehensive export tool for most Google services."
+        "notes": "Comprehensive export tool for most Google services. You choose which products to include."
     },
     {
         "name": "Facebook",
@@ -13,7 +13,7 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://www.facebook.com/dyi/",
-        "notes": "Download Your Information tool."
+        "notes": "Download Your Information tool. Includes posts, photos, comments, and activity logs."
     },
     {
         "name": "Twitter (X)",
@@ -21,7 +21,7 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://twitter.com/settings/your_twitter_data",
-        "notes": "Archive includes tweets, direct messages, media, etc."
+        "notes": "Archive includes tweets, direct messages, media, and more. Might take a few hours to generate."
     },
     {
         "name": "Instagram",
@@ -29,7 +29,7 @@
         "deletionRequired": false,
         "processTime": "Hours to 2 Days",
         "exportLink": "https://www.instagram.com/download/request/",
-        "notes": "Request your data through settings or app."
+        "notes": "Request your data through settings or the app. Photos and videos will be in a separate folder."
     },
     {
         "name": "LinkedIn",
@@ -37,7 +37,7 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://www.linkedin.com/psettings/member-data",
-        "notes": "Multiple data archives available, including connections, messages, etc."
+        "notes": "Multiple data archives available: connections, messages, job applications, account activity."
     },
     {
         "name": "GitHub",
@@ -45,15 +45,15 @@
         "deletionRequired": false,
         "processTime": "Minutes",
         "exportLink": "https://github.com/settings/admin",
-        "notes": "Account data and repository exports are separate processes."
+        "notes": "Account data and repository exports are separate processes. Repository cloning is via Git."
     },
     {
         "name": "Spotify",
         "formats": ["JSON"],
         "deletionRequired": false,
         "processTime": "Days to Weeks",
-        "exportLink": "https://www.spotify.com/account/privacy/",
-        "notes": "Right to portability/download your data. Can take a while."
+        "exportLink": "https://www.spotify.com/us/account/privacy/",
+        "notes": "Under 'Download your data' in privacy settings. Can take up to 30 days due to data volume."
     },
     {
         "name": "Reddit",
@@ -61,6 +61,38 @@
         "deletionRequired": false,
         "processTime": "Hours to Days",
         "exportLink": "https://www.reddit.com/settings/data",
-        "notes": "Download your data file."
+        "notes": "Your personal data file includes posts, comments, and messages. Generated periodically."
+    },
+    {
+        "name": "Netflix",
+        "formats": ["CSV"],
+        "deletionRequired": false,
+        "processTime": "Minutes",
+        "exportLink": "https://www.netflix.com/account/privacy",
+        "notes": "Download your viewing history and interaction data. Link is usually within privacy settings."
+    },
+    {
+        "name": "Twitch",
+        "formats": ["JSON"],
+        "deletionRequired": false,
+        "processTime": "Days",
+        "exportLink": "https://www.twitch.tv/settings/privacy",
+        "notes": "Request data download from privacy settings. May take several days for large archives."
+    },
+    {
+        "name": "Discord",
+        "formats": ["JSON"],
+        "deletionRequired": false,
+        "processTime": "Hours to Days",
+        "exportLink": "https://discord.com/settings/privacy",
+        "notes": "Request your data through User Settings > Privacy & Safety. Includes messages, attachments, etc."
+    },
+    {
+        "name": "Microsoft Account",
+        "formats": ["JSON", "CSV", "HTML", "ZIP"],
+        "deletionRequired": false,
+        "processTime": "Minutes to Hours",
+        "exportLink": "https://account.microsoft.com/privacy/download-data",
+        "notes": "Manage and download data across various Microsoft services like Outlook, Xbox, and activity history."
     }
 ]
