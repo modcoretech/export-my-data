@@ -1,106 +1,153 @@
-// Define the ServiceCard component
-const ServiceCard = {
-    props: ['service'],
-    template: `
-        <div class="service-card">
-            <h3>{{ service.name }}</h3>
-            <div class="format-tags">
-                <span v-if="service.formats && service.formats.length > 0" v-for="format in service.formats" :key="format" class="format-tag">{{ format.toUpperCase() }}</span>
-                <span v-else class="format-tag">N/A</span>
-            </div>
-            <div class="service-card-info">
-                <p><strong>Deletion Required:</strong>
-                    <span :class="['status-indicator', service.deletionRequired ? 'required' : 'available']">
-                        {{ service.deletionRequired ? 'Yes' : 'No' }}
-                    </span>
-                </p>
-                <p><strong>Process Time:</strong> {{ service.processTime || 'Varies by data volume' }}</p>
-                <p><strong>Notes:</strong> {{ service.notes || 'No specific notes available.' }}</p>
-            </div>
-            <div class="export-action">
-                <a v-if="service.exportLink" :href="service.exportLink" target="_blank" rel="noopener noreferrer">
-                    Go to Export Page
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6V8H16.59L4.71 19.88L6.12 21.29L18 9.41V16H20V6H10Z"/></svg>
-                </a>
-                <span v-else class="info-message-small">No direct link available</span>
-            </div>
-        </div>
-    `,
-    data() {
-        return {
-            // Data specific to this component, if any
-        };
-    }
-};
+document.addEventListener('DOMContentLoaded', () => {
+    const servicesGrid = document.getElementById('services-grid');
+    const searchInput = document.getElementById('searchInput');
+    const formatFilter = document.getElementById('formatFilter');
+    const deletionRequiredFilter = document.getElementById('deletionRequiredFilter');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const noResultsMessage = document.getElementById('noResults');
 
-// Create the Vue app instance
-const app = Vue.createApp({
-    components: {
-        ServiceCard // Register the component
-    },
-    data() {
-        return {
-            allServices: [],        // Stores the complete, unfiltered list of services
-            filteredServices: [],   // Stores the services currently displayed based on filters
-            searchTerm: '',
-            selectedFormat: '',
-            deletionRequired: false,
-            loading: true,          // Initial loading state
-            availableFormats: [],   // Dynamically populated unique formats for the filter
-            currentYear: new Date().getFullYear()
-        };
-    },
-    methods: {
-        async fetchServices() {
-            this.loading = true; // Set loading to true at the start of fetch
-            try {
-                const response = await fetch('data/services.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                this.allServices = await response.json(); // Store all services
-                this.populateAvailableFormats(this.allServices);
-                this.applyFilters(); // Apply filters immediately after fetching
-            } catch (error) {
-                console.error('Failed to fetch services:', error);
-                this.allServices = []; // Ensure allServices is empty on error
-                this.filteredServices = []; // Clear services on error
-                // You might want to display a user-friendly error message here
-            } finally {
-                this.loading = false; // Always set loading to false when done (success or error)
+    let allServices = []; // Stores the complete, unfiltered list of services
+
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    /**
+     * Creates an HTML string for a single service card.
+     * @param {Object} service - The service data object.
+     * @returns {string} The HTML string for the service card.
+     */
+    function createServiceCardHtml(service) {
+        const formatsHtml = service.formats && service.formats.length > 0
+            ? `<div class="flex flex-wrap gap-2 mb-4">
+                ${service.formats.map(format => `<span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-md text-sm font-medium border border-gray-600 hover:bg-gray-600 transition-colors duration-200">${format.toUpperCase()}</span>`).join('')}
+               </div>`
+            : `<div class="mb-4"><span class="bg-gray-700 text-gray-400 px-3 py-1 rounded-md text-sm font-medium border border-gray-600">N/A</span></div>`;
+
+        const deletionStatusClass = service.deletionRequired ? 'required' : 'available';
+        const deletionStatusText = service.deletionRequired ? 'Yes' : 'No';
+
+        const exportLinkHtml = service.exportLink
+            ? `<a href="${service.exportLink}" target="_blank" rel="noopener noreferrer"
+                  class="inline-flex items-center px-6 py-3 bg-fuchsia-700 text-white font-semibold rounded-lg hover:bg-fuchsia-600 transition-colors duration-200 transform hover:-translate-y-1">
+                  Go to Export Page
+                  <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6V8H16.59L4.71 19.88L6.12 21.29L18 9.41V16H20V6H10Z"/></svg>
+               </a>`
+            : `<span class="text-gray-400 text-sm italic">No direct link available</span>`;
+
+        return `
+            <div class="service-card bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col hover:transform hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
+                <h3 class="text-2xl font-bold text-cyan-400 mb-4 pb-3 border-b border-gray-700">
+                    ${service.name}
+                </h3>
+                ${formatsHtml}
+                <div class="flex-grow text-gray-200 text-sm">
+                    <p class="mb-2"><strong>Deletion Required:</strong>
+                        <span class="status-indicator ${deletionStatusClass}">
+                            ${deletionStatusText}
+                        </span>
+                    </p>
+                    <p class="mb-2"><strong>Process Time:</strong> <span class="text-gray-300">${service.processTime || 'Varies by data volume'}</span></p>
+                    <p class="mb-4"><strong>Notes:</strong> <span class="text-gray-300">${service.notes || 'No specific notes available.'}</span></p>
+                </div>
+                <div class="mt-auto pt-6 border-t border-gray-700 flex justify-end">
+                    ${exportLinkHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    /**
+     * Fetches service data from the JSON file.
+     */
+    async function fetchServices() {
+        loadingMessage.classList.remove('hidden'); // Show loading message
+        servicesGrid.innerHTML = ''; // Clear existing cards
+
+        try {
+            const response = await fetch('data/services.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        },
-        populateAvailableFormats(services) {
-            const formats = new Set();
-            services.forEach(service => {
-                if (service.formats && Array.isArray(service.formats)) {
-                    service.formats.forEach(format => formats.add(format.toUpperCase()));
-                }
-            });
-            this.availableFormats = Array.from(formats).sort();
-        },
-        applyFilters() {
-            // IMPORTANT: Filter 'allServices', not 'filteredServices'
-            let filtered = this.allServices.filter(service => {
-                const searchLower = this.searchTerm.toLowerCase();
-                const matchesSearch = service.name.toLowerCase().includes(searchLower) ||
-                                      (service.notes && service.notes.toLowerCase().includes(searchLower));
-
-                const matchesFormat = this.selectedFormat === '' ||
-                                      (service.formats && service.formats.some(f => f.toLowerCase() === this.selectedFormat.toLowerCase()));
-
-                const matchesDeletionRequirement = !this.deletionRequired || service.deletionRequired;
-
-                return matchesSearch && matchesFormat && matchesDeletionRequirement;
-            });
-
-            this.filteredServices = filtered; // Update the displayed services
+            allServices = await response.json();
+            populateFormatFilter(allServices);
+            applyFilters(); // Apply initial filters after fetching
+        } catch (error) {
+            console.error('Failed to fetch services:', error);
+            servicesGrid.innerHTML = `<p class="col-span-full text-center text-red-500 text-xl">Error loading data. Please try again later.</p>`;
+        } finally {
+            loadingMessage.classList.add('hidden'); // Hide loading message
         }
-    },
-    mounted() {
-        this.fetchServices(); // Initiate data fetch when the app component is mounted
     }
-});
 
-// Mount the Vue app to the #app element in index.html
-app.mount('#app');
+    /**
+     * Populates the format filter dropdown with unique formats.
+     * @param {Array} services - The array of service objects.
+     */
+    function populateFormatFilter(services) {
+        const formats = new Set();
+        services.forEach(service => {
+            if (service.formats && Array.isArray(service.formats)) {
+                service.formats.forEach(format => formats.add(format.toUpperCase()));
+            }
+        });
+        const sortedFormats = Array.from(formats).sort();
+
+        // Clear existing options, keep "All Formats"
+        formatFilter.innerHTML = '<option value="">All Formats</option>';
+        sortedFormats.forEach(format => {
+            const option = document.createElement('option');
+            option.value = format;
+            option.textContent = format;
+            formatFilter.appendChild(option);
+        });
+    }
+
+    /**
+     * Filters and renders service cards based on current filter settings.
+     */
+    function applyFilters() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const selectedFormat = formatFilter.value.toLowerCase();
+        const deletionRequired = deletionRequiredFilter.checked;
+
+        const filtered = allServices.filter(service => {
+            const nameMatch = service.name.toLowerCase().includes(searchTerm);
+            const notesMatch = (service.notes && service.notes.toLowerCase().includes(searchTerm));
+            const matchesSearch = nameMatch || notesMatch;
+
+            const matchesFormat = selectedFormat === '' ||
+                                  (service.formats && service.formats.some(format => format.toLowerCase() === selectedFormat));
+
+            const matchesDeletionRequirement = !deletionRequired || service.deletionRequired;
+
+            return matchesSearch && matchesFormat && matchesDeletionRequirement;
+        });
+
+        renderServices(filtered);
+    }
+
+    /**
+     * Renders the given list of services to the grid.
+     * @param {Array} servicesToRender - The services to display.
+     */
+    function renderServices(servicesToRender) {
+        servicesGrid.innerHTML = ''; // Clear current display
+        noResultsMessage.classList.add('hidden'); // Hide no results message initially
+
+        if (servicesToRender.length === 0) {
+            noResultsMessage.classList.remove('hidden');
+        } else {
+            servicesToRender.forEach(service => {
+                servicesGrid.insertAdjacentHTML('beforeend', createServiceCardHtml(service));
+            });
+        }
+    }
+
+    // Event Listeners for filters
+    searchInput.addEventListener('input', applyFilters);
+    formatFilter.addEventListener('change', applyFilters);
+    deletionRequiredFilter.addEventListener('change', applyFilters);
+
+    // Initial data fetch on page load
+    fetchServices();
+});
