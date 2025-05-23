@@ -40,34 +40,34 @@ const app = Vue.createApp({
     },
     data() {
         return {
-            allServices: [],
-            filteredServices: [],
+            allServices: [],        // Stores the complete, unfiltered list of services
+            filteredServices: [],   // Stores the services currently displayed based on filters
             searchTerm: '',
             selectedFormat: '',
             deletionRequired: false,
-            loading: true,
-            availableFormats: [], // Dynamically populated unique formats
+            loading: true,          // Initial loading state
+            availableFormats: [],   // Dynamically populated unique formats for the filter
             currentYear: new Date().getFullYear()
         };
     },
     methods: {
         async fetchServices() {
-            this.loading = true;
+            this.loading = true; // Set loading to true at the start of fetch
             try {
                 const response = await fetch('data/services.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                this.allServices = await response.json();
+                this.allServices = await response.json(); // Store all services
                 this.populateAvailableFormats(this.allServices);
-                this.applyFilters(); // Apply initial filters after data loads
+                this.applyFilters(); // Apply filters immediately after fetching
             } catch (error) {
                 console.error('Failed to fetch services:', error);
-                // Display error message
+                this.allServices = []; // Ensure allServices is empty on error
                 this.filteredServices = []; // Clear services on error
-                this.loading = false;
+                // You might want to display a user-friendly error message here
             } finally {
-                this.loading = false;
+                this.loading = false; // Always set loading to false when done (success or error)
             }
         },
         populateAvailableFormats(services) {
@@ -80,6 +80,7 @@ const app = Vue.createApp({
             this.availableFormats = Array.from(formats).sort();
         },
         applyFilters() {
+            // IMPORTANT: Filter 'allServices', not 'filteredServices'
             let filtered = this.allServices.filter(service => {
                 const searchLower = this.searchTerm.toLowerCase();
                 const matchesSearch = service.name.toLowerCase().includes(searchLower) ||
@@ -93,11 +94,11 @@ const app = Vue.createApp({
                 return matchesSearch && matchesFormat && matchesDeletionRequirement;
             });
 
-            this.filteredServices = filtered;
+            this.filteredServices = filtered; // Update the displayed services
         }
     },
     mounted() {
-        this.fetchServices(); // Fetch data when the component is mounted
+        this.fetchServices(); // Initiate data fetch when the app component is mounted
     }
 });
 
