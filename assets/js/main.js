@@ -13,10 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Creates an HTML string for a single service card.
+     * Includes lastVerifiedDate and accessibility attributes.
      * @param {Object} service - The service data object.
+     * @param {number} index - The index of the service for animation delay.
      * @returns {string} The HTML string for the service card.
      */
-    function createServiceCardHtml(service) {
+    function createServiceCardHtml(service, index) {
         const formatsHtml = service.formats && service.formats.length > 0
             ? `<div class="flex flex-wrap gap-2 mb-4">
                 ${service.formats.map(format => `<span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-md text-sm font-medium border border-gray-600 hover:bg-gray-600 transition-colors duration-200">${format.toUpperCase()}</span>`).join('')}
@@ -28,29 +30,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const exportLinkHtml = service.exportLink
             ? `<a href="${service.exportLink}" target="_blank" rel="noopener noreferrer"
-                  class="inline-flex items-center px-6 py-3 bg-fuchsia-700 text-white font-semibold rounded-lg hover:bg-fuchsia-600 transition-colors duration-200 transform hover:-translate-y-1">
+                  class="inline-flex items-center px-6 py-3 bg-fuchsia-700 text-white font-semibold rounded-lg hover:bg-fuchsia-600 transition-colors duration-200 transform hover:-translate-y-1"
+                  aria-label="Go to export page for ${service.name}">
                   Go to Export Page
                   <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6V8H16.59L4.71 19.88L6.12 21.29L18 9.41V16H20V6H10Z"/></svg>
                </a>`
             : `<span class="text-gray-400 text-sm italic">No direct link available</span>`;
 
+        const lastVerifiedHtml = service.lastVerifiedDate
+            ? `<p class="last-verified">Last verified: ${service.lastVerifiedDate}</p>`
+            : '';
+
         return `
-            <div class="service-card bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col hover:transform hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
-                <h3 class="text-2xl font-bold text-cyan-400 mb-4 pb-3 border-b border-gray-700">
+            <div class="service-card bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col hover:transform hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+                 style="animation-delay: ${index * 0.05}s;"> <h3 class="text-2xl font-bold text-cyan-400 mb-4 pb-3 border-b border-gray-700">
                     ${service.name}
                 </h3>
                 ${formatsHtml}
                 <div class="flex-grow text-gray-200 text-sm">
                     <p class="mb-2"><strong>Deletion Required:</strong>
-                        <span class="status-indicator ${deletionStatusClass}">
+                        <span class="status-indicator ${deletionStatusClass}" role="status">
                             ${deletionStatusText}
                         </span>
                     </p>
                     <p class="mb-2"><strong>Process Time:</strong> <span class="text-gray-300">${service.processTime || 'Varies by data volume'}</span></p>
                     <p class="mb-4"><strong>Notes:</strong> <span class="text-gray-300">${service.notes || 'No specific notes available.'}</span></p>
                 </div>
-                <div class="mt-auto pt-6 border-t border-gray-700 flex justify-end">
+                <div class="mt-auto pt-6 border-t border-gray-700 flex justify-between items-end">
                     ${exportLinkHtml}
+                    ${lastVerifiedHtml}
                 </div>
             </div>
         `;
@@ -73,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             applyFilters(); // Apply initial filters after fetching
         } catch (error) {
             console.error('Failed to fetch services:', error);
-            servicesGrid.innerHTML = `<p class="col-span-full text-center text-red-500 text-xl">Error loading data. Please try again later.</p>`;
+            servicesGrid.innerHTML = `<p class="col-span-full text-center text-red-500 text-xl info-message">Error loading data. Please check your internet connection or try again later.</p>`;
         } finally {
             loadingMessage.classList.add('hidden'); // Hide loading message
         }
@@ -137,8 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (servicesToRender.length === 0) {
             noResultsMessage.classList.remove('hidden');
         } else {
-            servicesToRender.forEach(service => {
-                servicesGrid.insertAdjacentHTML('beforeend', createServiceCardHtml(service));
+            servicesToRender.forEach((service, index) => {
+                servicesGrid.insertAdjacentHTML('beforeend', createServiceCardHtml(service, index));
             });
         }
     }
