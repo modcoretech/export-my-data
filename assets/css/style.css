@@ -1,20 +1,28 @@
 :root {
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
-    --text-color: #343a40;
-    --background-color: #f8f9fa;
-    --card-background: #ffffff;
-    --border-color: #dee2e6;
-    --header-bg: #e9ecef;
+    --primary-color: #007bff; /* Bright blue for accents */
+    --accent-color: #6a1b9a; /* A vibrant purple for highlights */
+    --text-color: #e0e0e0; /* Light gray for general text */
+    --light-text-color: #a0a0a0; /* Slightly darker light gray for secondary text */
+    --background-color: #1a1a1a; /* Dark background */
+    --card-background: #2a2a2a; /* Slightly lighter dark for cards */
+    --border-color: #444444; /* Darker border */
+    --header-bg: #222222; /* Darker header */
+    --input-bg: #333333; /* Dark background for inputs */
+    --input-border: #555555; /* Input border */
+    --tag-bg: #3a3a3a; /* Background for format tags */
+    --tag-text: #a0a0a0; /* Text for format tags */
+    --link-color: #64b5f6; /* Lighter blue for links */
+    --link-hover-color: #90caf9; /* Even lighter blue on hover */
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Inter', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
     color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
@@ -33,155 +41,285 @@ header {
 header h1 {
     margin: 0;
     color: var(--primary-color);
-    font-size: 2.5em;
+    font-size: 2.8em;
+    font-weight: 700;
+    letter-spacing: -0.03em;
 }
 
 header .tagline {
-    font-size: 1.1em;
-    color: var(--secondary-color);
+    font-size: 1.2em;
+    color: var(--light-text-color);
     margin-top: 5px;
+    font-weight: 300;
 }
 
 main {
-    padding: 20px 0;
+    padding: 30px 0;
 }
 
 section {
-    background-color: var(--card-background);
-    padding: 25px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 0; /* Cards will have their own padding */
+    margin-bottom: 30px;
 }
 
 #intro p {
     font-size: 1.1em;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: var(--text-color);
 }
 
-.search-filter {
+.filter-controls {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     align-items: center;
+    background-color: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.search-filter input[type="text"],
-.search-filter select {
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
+.filter-controls input[type="text"],
+.filter-controls select {
+    padding: 12px 15px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
     font-size: 1em;
     flex-grow: 1;
-    min-width: 200px; /* Ensure inputs don't get too small */
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    min-width: 200px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    appearance: none; /* Remove default select arrow */
 }
 
-.search-filter label {
+.filter-controls input[type="text"]::placeholder {
+    color: var(--light-text-color);
+}
+
+.filter-controls input[type="text"]:focus,
+.filter-controls select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Custom select arrow */
+.select-wrapper {
+    position: relative;
+    flex-grow: 1;
+    min-width: 200px;
+}
+.select-wrapper::after {
+    content: '▼';
+    font-size: 0.8em;
+    color: var(--light-text-color);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.checkbox-label {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     font-size: 1em;
-    white-space: nowrap; /* Prevent wrapping for checkbox label */
+    color: var(--text-color);
+    cursor: pointer;
+    white-space: nowrap;
 }
 
-.search-filter input[type="checkbox"] {
-    transform: scale(1.2);
+.checkbox-label input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--input-border);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkbox-label input[type="checkbox"]::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    transform: scale(0);
+    transition: transform 0.2s ease-in-out;
+    box-shadow: inset 1em 1em var(--primary-color);
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 60%);
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkbox-label input[type="checkbox"]:checked::before {
+    transform: scale(1);
 }
 
 
-.table-responsive {
-    overflow-x: auto; /* Allows table to scroll horizontally on small screens */
+/* Service Cards Grid */
+#services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+.service-card {
+    background-color: var(--card-background);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
 }
 
-table th, table td {
-    border: 1px solid var(--border-color);
-    padding: 12px 15px;
-    text-align: left;
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-table th {
-    background-color: var(--header-bg);
-    font-weight: bold;
+.service-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
     color: var(--primary-color);
-    white-space: nowrap; /* Prevent headers from wrapping too much */
+    font-size: 1.8em;
+    font-weight: 600;
 }
 
-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+.service-card p {
+    margin-bottom: 10px;
+    font-size: 0.95em;
+    color: var(--text-color);
 }
 
-table td a {
-    color: var(--primary-color);
-    text-decoration: none;
+.service-card p strong {
+    color: var(--light-text-color);
+    font-weight: 500;
 }
 
-table td a:hover {
-    text-decoration: underline;
+.format-tags {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
 }
 
 .format-tag {
     display: inline-block;
-    background-color: #e2f0ff;
-    color: #0056b3;
-    padding: 4px 8px;
-    border-radius: 4px;
+    background-color: var(--tag-bg);
+    color: var(--tag-text);
+    padding: 6px 12px;
+    border-radius: 5px;
     font-size: 0.85em;
-    margin: 2px;
+    font-weight: 500;
+    border: 1px solid var(--input-border);
+}
+
+.export-link {
+    margin-top: auto; /* Pushes the link to the bottom */
+    text-align: right;
+}
+
+.export-link a {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.export-link a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.info-message {
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--light-text-color);
+    margin-top: 50px;
+    grid-column: 1 / -1; /* Make it span all columns */
 }
 
 footer {
-    background-color: var(--text-color);
-    color: #ffffff;
+    background-color: var(--header-bg);
+    color: var(--light-text-color);
     text-align: center;
-    padding: 20px 0;
-    margin-top: 30px;
+    padding: 25px 0;
+    margin-top: 40px;
+    border-top: 1px solid var(--border-color);
 }
 
 footer a {
-    color: var(--primary-color);
+    color: var(--link-color);
     text-decoration: none;
+    transition: color 0.2s ease-in-out;
 }
 
 footer a:hover {
+    color: var(--link-hover-color);
     text-decoration: underline;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     header h1 {
-        font-size: 2em;
+        font-size: 2.2em;
     }
 
-    .search-filter {
+    .filter-controls {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .search-filter input[type="text"],
-    .search-filter select {
+    .filter-controls input[type="text"],
+    .filter-controls select,
+    .select-wrapper {
         width: 100%;
         min-width: unset;
     }
 
-    table th, table td {
-        padding: 8px 10px;
-        font-size: 0.9em;
+    #services-grid {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+
+    .service-card {
+        padding: 20px;
+    }
+
+    .service-card h3 {
+        font-size: 1.6em;
+    }
+
+    .export-link a {
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        padding: 10px;
+        padding: 15px;
     }
 
     header h1 {
         font-size: 1.8em;
+    }
+
+    .tagline {
+        font-size: 1em;
     }
 }
