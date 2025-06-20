@@ -5,8 +5,8 @@
         "deletionRequired": false,
         "processTime": "Minutes to Days",
         "exportLink": "https://takeout.google.com/",
-        "notes": "Comprehensive export tool for most Google services (Gmail, Drive, Photos, Calendar, YouTube, etc.). You can select specific products and data types. Larger exports may take longer and be delivered via email link. Review the export options carefully for specific data types.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Comprehensive tool for most Google services (Gmail, Drive, Photos, etc.). Larger exports may take longer.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Facebook",
@@ -14,8 +14,8 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://www.facebook.com/dyi/",
-        "notes": "The 'Download Your Information' (DYI) tool allows you to get a copy of your content and information, including posts, photos, comments, activity logs, messages, and facial recognition data. You can customize the date range, format, and media quality. Files are delivered as an archive for download.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "The 'Download Your Information' tool lets you get posts, photos, messages, and more. Format and media quality are customizable.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Twitter (X)",
@@ -23,8 +23,8 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://twitter.com/settings/your_twitter_data",
-        "notes": "Your 'Twitter Data' archive includes tweets, direct messages, media (photos/videos), followers, following, moments, and more. It may take a few hours for your archive to be ready for download, and you'll be notified via email when it's available.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Your archive includes tweets, DMs, media, and follower lists. You'll be notified via email when it's ready.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Instagram",
@@ -32,8 +32,8 @@
         "deletionRequired": false,
         "processTime": "Hours to 2 Days",
         "exportLink": "https://www.instagram.com/download/request/",
-        "notes": "Request your data through your settings ('Your Activity' > 'Download Your Information') or the mobile app. Photos and videos will be organized in separate folders within the downloaded archive. Processing time depends on your data volume, and the download link is typically valid for 4 days.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Request your data via settings. Includes photos, videos, and comments. Download link is valid for 4 days.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "LinkedIn",
@@ -41,8 +41,8 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://www.linkedin.com/psettings/member-data",
-        "notes": "LinkedIn offers multiple data archives: connections, messages, job applications, account activity, recommendations, etc. You can select specific categories for export. Downloads are typically available quickly via email link.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Offers multiple archives: connections, messages, job applications, etc. Typically available quickly.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "GitHub",
@@ -50,17 +50,17 @@
         "deletionRequired": false,
         "processTime": "Minutes",
         "exportLink": "https://github.com/settings/admin",
-        "notes": "Account data can be downloaded from your 'Account Data' settings. For repositories, standard Git cloning operations are used for code. Additional repository data like issues, pull requests, etc., can be exported via GitHub's API or third-party tools.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Account data download is available. For repositories, use standard Git clone operations. Issues/PRs via API.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Spotify",
         "formats": ["JSON"],
         "deletionRequired": false,
         "processTime": "Days to Weeks",
-        "exportLink": "https://www.spotify.com/account/privacy/",
-        "notes": "Found under 'Download your data' in privacy settings. This includes personal data, streaming history, and user-generated content. Due to the volume of streaming data, it can take up to 30 days for your full archive to be prepared and sent via email. Make sure to check spam.",
-        "lastVerifiedDate": "2025-05-23"
+        "exportLink": "https://www.spotify.com/us/account/privacy/",
+        "notes": "Includes personal data and streaming history. Can take up to 30 days for the full archive to be prepared.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Reddit",
@@ -68,8 +68,8 @@
         "deletionRequired": false,
         "processTime": "Hours to Days",
         "exportLink": "https://www.reddit.com/settings/data",
-        "notes": "Your personal data file includes posts, comments, messages, saved content, and moderating actions. The archive is generated periodically and may take some time depending on your activity. You will receive a notification when it's ready for download.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Includes posts, comments, messages, and saved content. You will get a notification when it's ready for download.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Netflix",
@@ -77,8 +77,8 @@
         "deletionRequired": false,
         "processTime": "Minutes",
         "exportLink": "https://www.netflix.com/account/privacy",
-        "notes": "You can download your viewing history, interaction data, and payment information. The export link is typically found within your account's privacy settings under 'Download your personal information'. Data is usually available quickly.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Download viewing history, interaction data, and payment information. Usually available very quickly.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Twitch",
@@ -86,8 +86,8 @@
         "deletionRequired": false,
         "processTime": "Days",
         "exportLink": "https://www.twitch.tv/settings/privacy",
-        "notes": "Request data download from your privacy settings under 'Request My Data'. For large archives, such as extensive chat logs or broadcast history, it may take several days to be processed and made available via an email link. You can't select specific data types.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Request your data from privacy settings. May take several days for extensive chat logs or broadcast history.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Discord",
@@ -95,8 +95,8 @@
         "deletionRequired": false,
         "processTime": "Hours to Days",
         "exportLink": "https://discord.com/settings/privacy",
-        "notes": "Request your data through User Settings > Privacy & Safety > 'Request all of my Data'. The archive includes messages, attachments, user settings, and more. Processing time varies with data size; larger archives can take a few days.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Request all your data via User Settings > Privacy & Safety. Includes messages, servers, settings, and more.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Microsoft Account",
@@ -104,8 +104,8 @@
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
         "exportLink": "https://account.microsoft.com/privacy/download-data",
-        "notes": "Allows you to manage and download data across various Microsoft services including Outlook, Xbox activity, search history, Edge browser data, and more. Provides granular control over data types and date ranges.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Download data across Outlook, Xbox, search history, Edge, etc. Provides granular control over data types.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Amazon",
@@ -113,8 +113,8 @@
         "deletionRequired": false,
         "processTime": "Hours to Days",
         "exportLink": "https://www.amazon.com/gp/privacycentral/data-requests",
-        "notes": "You can request data including orders, payment history, customer service interactions, and more from 'Request My Data' under your privacy settings. Expect email notification with download instructions. Data is typically provided within 24-48 hours.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Request data like orders, payment history, and customer service interactions. Typically provided within 24-48 hours.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Apple (Privacy Portal)",
@@ -122,8 +122,8 @@
         "deletionRequired": false,
         "processTime": "Days to Weeks",
         "exportLink": "https://privacy.apple.com/",
-        "notes": "Apple's Data and Privacy portal allows you to request a copy of your data across various Apple services, including iCloud, Apple ID, App Store, and more. This is a comprehensive request and can take up to 7 days for Apple to prepare your archive.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Comprehensive request for data across iCloud, Apple ID, App Store, etc. Can take up to 7 days to prepare.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Adobe",
@@ -131,17 +131,17 @@
         "deletionRequired": false,
         "processTime": "Hours to Days",
         "exportLink": "https://account.adobe.com/privacy",
-        "notes": "Access your privacy settings to request a copy of your personal data. This typically includes account information, product usage data, and content you've stored in Adobe services (e.g., Creative Cloud assets). Processing time varies based on data volume.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Request a copy of personal data, product usage data, and content stored in Adobe services like Creative Cloud.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Zoom",
         "formats": ["CSV", "JSON"],
         "deletionRequired": false,
         "processTime": "Minutes to Hours",
-        "exportLink": "https://zoom.us/profile/setting/privacy",
-        "notes": "Under 'Data Management' in your account settings, you can request a copy of your data, including meeting logs, chat history, and account activity. It's usually a quick process, with download links sent via email.",
-        "lastVerifiedDate": "2025-05-23"
+        "exportLink": "https://zoom.us/profile/setting?setting_page=data_management",
+        "notes": "Request a copy of your data, including meeting logs, chat history, and account activity from 'Data Management'.",
+        "lastVerifiedDate": "2025-06-20"
     },
     {
         "name": "Slack",
@@ -149,7 +149,79 @@
         "deletionRequired": false,
         "processTime": "Hours to Days",
         "exportLink": "https://slack.com/account/settings#privacy",
-        "notes": "Workspace owners/admins can export data from public and private channels, direct messages, and files. Individual users can export their own message history for direct messages only. Export methods vary by plan type and role.",
-        "lastVerifiedDate": "2025-05-23"
+        "notes": "Workspace owners can export data from all channels. Individuals can export their own DM history.",
+        "lastVerifiedDate": "2025-06-20"
+    },
+    {
+        "name": "TikTok",
+        "formats": ["TXT", "JSON"],
+        "deletionRequired": false,
+        "processTime": "Hours to Days",
+        "exportLink": "https://www.tiktok.com/setting/download-your-data",
+        "notes": "Download your data in the 'Settings and privacy' menu. Includes profile info, activity, and app settings.",
+        "lastVerifiedDate": "2025-06-20"
+    },
+    {
+        "name": "Pinterest",
+        "formats": ["JSON"],
+        "deletionRequired": false,
+        "processTime": "Hours to 2 Days",
+        "exportLink": "https://www.pinterest.com/settings/privacy-and-data/",
+        "notes": "You can request your data, which includes your pins, boards, and account history, from the privacy settings page.",
+        "lastVerifiedDate": "2025-06-20"
+    },
+    {
+        "name": "Dropbox",
+        "formats": ["ZIP"],
+        "deletionRequired": false,
+        "processTime": "Minutes",
+        "exportLink": "https://www.dropbox.com/account/general",
+        "notes": "While you can download all files easily, account information can be requested through their help/privacy section.",
+        "lastVerifiedDate": "2025-06-20"
+    },
+    {
+        "name": "Steam",
+        "formats": ["JSON", "HTML"],
+        "deletionRequired": false,
+        "processTime": "Days to Weeks",
+        "exportLink": "https://help.steampowered.com/en/accountdata",
+        "notes": "Request your data from the Steam Support page. It can take up to 30 days and includes purchase history, community content, etc.",
+        "lastVerifiedDate": "2025-06-20"
+    },
+    {
+        "name": "PayPal",
+        "formats": ["PDF", "CSV"],
+        "deletionRequired": false,
+        "processTime": "Minutes to Hours",
+        "exportLink": "https://www.paypal.com/myaccount/privacy/data",
+        "notes": "You can request reports of your transaction history and other account data from the data and privacy settings.",
+        "lastVerifiedDate": "2025-06-20"
+    },
+    {
+        "name": "Notion",
+        "formats": ["Markdown", "CSV", "HTML"],
+        "deletionRequired": false,
+        "processTime": "Minutes",
+        "exportLink": "https://www.notion.so/my-account",
+        "notes": "Workspace owners can export the entire workspace. Individual users can export pages one by one. Available in settings.",
+        "lastVerifiedDate": "2025-06-20"
+    },
+    {
+        "name": "Trello",
+        "formats": ["JSON", "CSV"],
+        "deletionRequired": false,
+        "processTime": "Minutes",
+        "exportLink": "https://trello.com/my/profile",
+        "notes": "Board data can be exported in JSON format from the board menu. Business Class allows CSV exports. Personal data export is also available.",
+        "lastVerifiedDate": "2025-06-20"
+    },
+    {
+        "name": "Telegram",
+        "formats": ["JSON", "HTML"],
+        "deletionRequired": false,
+        "processTime": "Hours",
+        "exportLink": "https://desktop.telegram.org/",
+        "notes": "Data export is only available through the Telegram Desktop application. Go to Settings > Advanced > Export Telegram Data.",
+        "lastVerifiedDate": "2025-06-20"
     }
 ]
