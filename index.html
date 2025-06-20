@@ -30,7 +30,11 @@
                 <div class="filter-controls">
                     <div class="search-area">
                         <label for="searchInput" class="filter-label">Search Services</label>
-                        <input type="text" id="searchInput" placeholder="Search by name or notes..." aria-label="Search by service name or notes" class="search-input">
+                        <div class="search-input-wrapper">
+                            <input type="text" id="searchInput" placeholder="Search by name or notes..." aria-label="Search by service name or notes" class="search-input">
+                            <button id="searchClearBtn" class="input-clear-btn" aria-label="Clear search input" hidden>
+                                </button>
+                        </div>
                     </div>
 
                     <div class="format-area">
@@ -55,20 +59,19 @@
                             </span>
                         </label>
                     </div>
-
-                    <div class="actions-area">
-                        <button id="clearFiltersBtn" class="clear-button hidden" aria-label="Clear all filters">
-                            <span id="clearIconContainer"></span> Clear Filters
-                        </button>
-                    </div>
                 </div>
-                <div id="resultsCount" class="results-count"></div>
+                <div class="filter-summary">
+                    <span id="resultsCount" class="results-count"></span>
+                    <a href="#" id="resetFiltersLink" class="reset-link" hidden>Reset All Filters</a>
+                </div>
             </section>
 
             <section id="services-grid" class="services-grid">
                 <p id="loadingMessage" class="info-message loading-state">Loading service information...</p>
-                <p id="noResults" class="info-message empty-state hidden">No services match your filters. Try adjusting your search or selections.</p>
+                <p id="noResults" class="info-message empty-state" hidden>No services match your filters. Try adjusting your search or selections.</p>
             </section>
+            
+            <nav id="pagination-container" class="pagination-container" aria-label="Service list navigation"></nav>
         </div>
     </main>
 
@@ -79,7 +82,7 @@
                 <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer" class="footer-link">Modcore Team</a>.
             </p>
             <p class="footer-links-group">
-                <a href="https://modcoretech/export-my-data" target="_blank" rel="noopener noreferrer" class="footer-link">View on GitHub</a>
+                <a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer" class="footer-link">View on GitHub</a>
                 |
                 <a href="https://github.com/modcoretech/export-my-data/issues" target="_blank" rel="noopener noreferrer" class="footer-link">Report a Problem</a>
                 |
