@@ -24,28 +24,45 @@
         <div class="container">
             <section class="intro-section">
                 <p>Easily find out how to get your data back from popular online services. We provide direct links, explain data formats, and give you an idea of how long it takes.</p>
+            </section>
 
+            <section class="filter-section">
                 <div class="filter-controls">
-                    <input type="text" id="searchInput" placeholder="Search service names or notes..." aria-label="Search by service name or notes" class="search-input">
-
-                    <div class="select-wrapper">
-                        <select id="formatFilter" aria-label="Filter by data format" class="format-select">
-                            <option value="">All Data Formats</option>
-                            </select>
+                    <div class="search-area">
+                        <label for="searchInput" class="filter-label">Search Services</label>
+                        <input type="text" id="searchInput" placeholder="Search by name or notes..." aria-label="Search by service name or notes" class="search-input">
                     </div>
 
-                    <label class="toggle-container tooltip-container">
-                        <span class="toggle-label">Deletion Required?</span>
-                        <div class="toggle-switch">
-                            <input type="checkbox" id="deletionRequiredFilter" class="toggle-checkbox" aria-label="Filter by services where deletion is required for data removal">
-                            <span class="toggle-slider"></span>
+                    <div class="format-area">
+                        <label for="formatFilter" class="filter-label">Filter by Format</label>
+                        <div class="select-wrapper">
+                            <select id="formatFilter" aria-label="Filter by data format" class="format-select">
+                                <option value="">All Data Formats</option>
+                            </select>
                         </div>
-                        <span class="tooltip-icon" aria-describedby="tooltip-deletion">i</span>
-                        <span id="tooltip-deletion" role="tooltip" class="tooltip-text">
-                            Show services where you might need to delete your account to fully remove your data.
-                        </span>
-                    </label>
+                    </div>
+
+                    <div class="deletion-area">
+                        <label class="toggle-container tooltip-container">
+                            <span class="toggle-label">Deletion Required?</span>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="deletionRequiredFilter" class="toggle-checkbox" aria-label="Filter by services where deletion is required for data removal">
+                                <span class="toggle-slider"></span>
+                            </div>
+                            <span class="tooltip-icon" aria-describedby="tooltip-deletion">i</span>
+                            <span id="tooltip-deletion" role="tooltip" class="tooltip-text">
+                                Show services where you might need to delete your account to fully remove your data.
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="actions-area">
+                        <button id="clearFiltersBtn" class="clear-button hidden" aria-label="Clear all filters">
+                            <span id="clearIconContainer"></span> Clear Filters
+                        </button>
+                    </div>
                 </div>
+                <div id="resultsCount" class="results-count"></div>
             </section>
 
             <section id="services-grid" class="services-grid">
@@ -62,7 +79,7 @@
                 <a href="https://github.com/modcore" target="_blank" rel="noopener noreferrer" class="footer-link">Modcore Team</a>.
             </p>
             <p class="footer-links-group">
-                <a href="https://github.com/modcoretech/export-my-data" target="_blank" rel="noopener noreferrer" class="footer-link">View on GitHub</a>
+                <a href="https://modcoretech/export-my-data" target="_blank" rel="noopener noreferrer" class="footer-link">View on GitHub</a>
                 |
                 <a href="https://github.com/modcoretech/export-my-data/issues" target="_blank" rel="noopener noreferrer" class="footer-link">Report a Problem</a>
                 |
